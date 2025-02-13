@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cstd86sq0ef0t"]
+
+[ext_resource type="Texture2D" uid="uid://2bomdpcwp48g" path="res://client/assets/meshes/cake-cat_cat-face-texture.png" id="1_djsji"]
+
+[resource]
+resource_name = "cat-face"
+cull_mode = 2
+albedo_texture = ExtResource("1_djsji")
+roughness = 0.5
+texture_filter = 0

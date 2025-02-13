@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bb4ciun6iwk4o"]
+
+[ext_resource type="Texture2D" uid="uid://baty5s75d4icq" path="res://client/assets/meshes/cake-cat_frosting-texture.png" id="1_bra2l"]
+
+[resource]
+resource_name = "frosting"
+cull_mode = 2
+albedo_texture = ExtResource("1_bra2l")
+roughness = 0.5
+texture_filter = 0

@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcinvjdqynmqd"]
+
+[ext_resource type="Script" uid="uid://cg2r3ipoqkvmo" path="res://client/client.gd" id="1_q508y"]
+[ext_resource type="Script" uid="uid://cuxd4oiwdlo3b" path="res://server/scripts/system/world_manager_server.gd" id="2_kqxjk"]
+[ext_resource type="PackedScene" uid="uid://c2y0abvhkn16a" path="res://client/scenes/mobiles/player_character.tscn" id="2_rhbop"]
+[ext_resource type="PackedScene" uid="uid://bujnsbgy1kg5s" path="res://client/scenes/system/zone_map_client.tscn" id="3_ipur4"]
+[ext_resource type="PackedScene" uid="uid://w421yv7y4aaq" path="res://client/scenes/system/player_controls.tscn" id="3_modkh"]
+
+[node name="ClientMain" type="Node"]
+script = ExtResource("1_q508y")
+player_scene = ExtResource("2_rhbop")
+
+[node name="PlayerControls" parent="." instance=ExtResource("3_modkh")]
+
+[node name="Data" type="Node" parent="."]
+
+[node name="World" type="Node" parent="."]
+script = ExtResource("2_kqxjk")
+zonemap_scene = ExtResource("3_ipur4")
+
+[editable path="PlayerControls"]

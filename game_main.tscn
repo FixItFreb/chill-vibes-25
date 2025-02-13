@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxtfoe0g5oq8j"]
+
+[ext_resource type="PackedScene" uid="uid://cvx7s2ot7uhfw" path="res://server/server_main.tscn" id="1_r2uep"]
+[ext_resource type="PackedScene" uid="uid://bcinvjdqynmqd" path="res://client/client_main.tscn" id="2_tjf8n"]
+[ext_resource type="PackedScene" uid="uid://lt6f53f8qolu" path="res://client/scenes/ui/front_end.tscn" id="3_3ticj"]
+
+[sub_resource type="World3D" id="World3D_yn5om"]
+
+[node name="GameMain" type="Node"]
+
+[node name="ServerWorld" type="SubViewport" parent="."]
+own_world_3d = true
+world_3d = SubResource("World3D_yn5om")
+
+[node name="ServerMain" parent="ServerWorld" instance=ExtResource("1_r2uep")]
+
+[node name="ClientMain" parent="." instance=ExtResource("2_tjf8n")]
+
+[node name="FrontEnd" parent="." instance=ExtResource("3_3ticj")]
+
+[editable path="ServerWorld/ServerMain"]
+[editable path="ClientMain"]
+[editable path="ClientMain/PlayerControls"]

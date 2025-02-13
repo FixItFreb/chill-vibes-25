@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://c2y0abvhkn16a"]
+
+[ext_resource type="Script" uid="uid://dccmqjnlmjtmu" path="res://shared/scripts/mobile/player_mobile.gd" id="1_5pc41"]
+[ext_resource type="Resource" uid="uid://snemydabu4rc" path="res://shared/resources/mobiles/cake_cat.tres" id="2_etvm8"]
+[ext_resource type="Script" uid="uid://mx0l2xtjfhmu" path="res://shared/scripts/mobile/mobile_locomotion.gd" id="2_x8xpq"]
+[ext_resource type="Script" uid="uid://c82kgiq2hgce" path="res://shared/scripts/system/damageable.gd" id="3_5pc41"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yf8sn"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yg40m"]
+radius = 0.7
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x8xpq"]
+
+[node name="PlayerCharacter" type="CharacterBody3D"]
+script = ExtResource("1_5pc41")
+mobile_config = ExtResource("2_etvm8")
+
+[node name="Locomotion" type="Node" parent="."]
+script = ExtResource("2_x8xpq")
+move_speed = 4.0
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("3_5pc41")
+
+[node name="OwnerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yf8sn")
+public_visibility = false
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.7, 0)
+shape = SubResource("CapsuleShape3D_yg40m")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_x8xpq")
+}
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]

@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://50spij36i05x"]
+
+[ext_resource type="PackedScene" uid="uid://w421yv7y4aaq" path="res://client/scenes/system/player_controls.tscn" id="1_7h3yc"]
+[ext_resource type="Script" uid="uid://dnbdsh30g1ipn" path="res://test/test_gym.gd" id="1_loo1a"]
+[ext_resource type="PackedScene" uid="uid://c2y0abvhkn16a" path="res://client/scenes/mobiles/player_character.tscn" id="2_2hsph"]
+
+[sub_resource type="Environment" id="Environment_loo1a"]
+background_mode = 1
+background_color = Color(0.412152, 0.412152, 0.412152, 1)
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_8xksx"]
+size = Vector2(100, 100)
+orientation = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_loo1a"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjna7"]
+albedo_color = Color(1, 0.847059, 0.552941, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0aybk"]
+material = SubResource("StandardMaterial3D_pjna7")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 2.5
+
+[node name="TestGym" type="Node" node_paths=PackedStringArray("player_input")]
+script = ExtResource("1_loo1a")
+player_input = NodePath("PlayerControls")
+
+[node name="PlayerControls" parent="." instance=ExtResource("1_7h3yc")]
+
+[node name="CamArm" parent="PlayerControls" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642787, 0, -0.642787, 0.766044, 0, 0, 0)
+collision_mask = 0
+spring_length = 8.0
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_2hsph")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88574, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_loo1a")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="World" type="Node" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World"]
+mesh = SubResource("QuadMesh_8xksx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_loo1a")
+
+[node name="Cake" type="Node3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.698, 0, -10.64)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Cake"]
+mesh = SubResource("CylinderMesh_0aybk")
+
+[editable path="PlayerControls"]
+[editable path="PlayerCharacter"]

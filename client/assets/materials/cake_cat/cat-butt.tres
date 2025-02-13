@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bgt74gks4nfm4"]
+
+[resource]
+resource_name = "cat-butt"
+cull_mode = 2
+albedo_color = Color(0.616109, 0.375194, 0.199445, 1)
+roughness = 0.5
+texture_filter = 0

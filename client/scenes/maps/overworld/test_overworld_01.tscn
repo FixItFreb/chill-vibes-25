@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://c222siboj2ed"]
+
+[ext_resource type="Script" uid="uid://bqqebu74rioin" path="res://shared/scripts/system/map_data.gd" id="1_kcpmk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vaot5"]
+size = Vector3(8, 1, 5.7)
+
+[node name="TestOverworld01" type="Node"]
+
+[node name="Data" type="Node" parent="."]
+script = ExtResource("1_kcpmk")
+map_name = "TestOverworld"
+
+[node name="MapRoot" type="Node3D" parent="."]
+
+[node name="Terrain" type="Node" parent="MapRoot"]
+
+[node name="Collision" type="Node" parent="MapRoot"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MapRoot/Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapRoot/Collision/StaticBody3D"]
+shape = SubResource("BoxShape3D_vaot5")
+
+[node name="Decor" type="Node" parent="MapRoot"]
+
+[node name="SpawnPoints" type="Node" parent="MapRoot"]
+
+[node name="Default" type="Node3D" parent="MapRoot/SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1.7)
+
+[node name="Portals" type="Node" parent="MapRoot"]

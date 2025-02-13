@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://dsfhrhl4bo8tu"]
+
+[ext_resource type="Script" uid="uid://dccmqjnlmjtmu" path="res://shared/scripts/mobile/player_mobile.gd" id="1_8wdpr"]
+[ext_resource type="Resource" uid="uid://snemydabu4rc" path="res://shared/resources/mobiles/cake_cat.tres" id="2_kbrm4"]
+[ext_resource type="Script" uid="uid://mx0l2xtjfhmu" path="res://shared/scripts/mobile/mobile_locomotion.gd" id="3_gctsp"]
+[ext_resource type="Script" uid="uid://c82kgiq2hgce" path="res://shared/scripts/system/damageable.gd" id="4_c2xi3"]
+[ext_resource type="PackedScene" uid="uid://cprl7de3byinb" path="res://shared/scenes/mobiles/cake_cat.tscn" id="5_a5qnr"]
+[ext_resource type="AnimationLibrary" uid="uid://by0nn70krl1dw" path="res://shared/resources/anims/cake_cat_anims.tres" id="6_31etd"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yf8sn"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yg40m"]
+radius = 0.7
+
+[node name="PlayerCharacter" type="CharacterBody3D"]
+script = ExtResource("1_8wdpr")
+mobile_config = ExtResource("2_kbrm4")
+
+[node name="Locomotion" type="Node" parent="."]
+script = ExtResource("3_gctsp")
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("4_c2xi3")
+
+[node name="OwnerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yf8sn")
+public_visibility = false
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.7, 0)
+shape = SubResource("CapsuleShape3D_yg40m")
+
+[node name="mesh" parent="." instance=ExtResource("5_a5qnr")]
+transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, 0, 0)
+
+[node name="Cylinder_002" parent="mesh" index="2"]
+visible = false
+
+[node name="Cylinder_003" parent="mesh" index="3"]
+visible = false
+
+[node name="Cylinder_004" parent="mesh" index="4"]
+visible = false
+
+[node name="Cylinder_005" parent="mesh" index="5"]
+visible = false
+
+[node name="foot_anchor1" parent="mesh" index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.9, 0.594)
+
+[node name="foot_anchor2" parent="mesh" index="9"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.752775, 0.92, 0.327)
+
+[node name="foot_anchor3" parent="mesh" index="10"]
+transform = Transform3D(-1, 1.50996e-07, 0, -1.50996e-07, -1, 0, 0, 0, 1, 0.449966, 0.9, -0.327)
+
+[node name="foot_anchor4" parent="mesh" index="11"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.75275, 0.9, -0.327)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": ExtResource("6_31etd")
+}
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[editable path="mesh"]

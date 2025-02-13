@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bujnsbgy1kg5s"]
+
+[ext_resource type="Script" uid="uid://ciq7wgyhld3mm" path="res://shared/scripts/system/zone_map.gd" id="1_s1gw2"]
+
+[node name="ZoneMapClient" type="Node"]
+script = ExtResource("1_s1gw2")
+
+[node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../DynamicEntities")
+
+[node name="DynamicEntities" type="Node" parent="."]

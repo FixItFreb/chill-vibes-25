@@ -1,0 +1,30 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=13 format=3 uid="uid://d2q6olel8pf55"]
+
+[ext_resource type="AudioStream" uid="uid://bok7y8yr6lntg" path="res://client/assets/audio/cardboard_on_cardboard/01.wav" id="1_t7hwf"]
+[ext_resource type="AudioStream" uid="uid://d1jl7yrv2fxxo" path="res://client/assets/audio/cardboard_on_cardboard/02.wav" id="2_3i8rj"]
+[ext_resource type="AudioStream" uid="uid://cinp5555u6uie" path="res://client/assets/audio/cardboard_on_cardboard/11.wav" id="3_tk8db"]
+[ext_resource type="AudioStream" uid="uid://olmwdmpcaqtd" path="res://client/assets/audio/cardboard_on_cardboard/12.wav" id="4_kpino"]
+[ext_resource type="AudioStream" uid="uid://bb33gfk3uotmh" path="res://client/assets/audio/cardboard_on_cardboard/03.wav" id="5_7ib01"]
+[ext_resource type="AudioStream" uid="uid://yi1rukxrsee1" path="res://client/assets/audio/cardboard_on_cardboard/04.wav" id="6_e4jvp"]
+[ext_resource type="AudioStream" uid="uid://bjki6da8ottgw" path="res://client/assets/audio/cardboard_on_cardboard/05.wav" id="7_mh3x8"]
+[ext_resource type="AudioStream" uid="uid://2yuhvoq0sfam" path="res://client/assets/audio/cardboard_on_cardboard/06.wav" id="8_6gk2b"]
+[ext_resource type="AudioStream" uid="uid://sbuuyjdfcv0j" path="res://client/assets/audio/cardboard_on_cardboard/07.wav" id="9_gxgo0"]
+[ext_resource type="AudioStream" uid="uid://dyxm52h5jysgm" path="res://client/assets/audio/cardboard_on_cardboard/08.wav" id="10_dy0df"]
+[ext_resource type="AudioStream" uid="uid://ck2afb406tqrx" path="res://client/assets/audio/cardboard_on_cardboard/09.wav" id="11_6n27n"]
+[ext_resource type="AudioStream" uid="uid://cuxf0o3dlxcrx" path="res://client/assets/audio/cardboard_on_cardboard/10.wav" id="12_xoswg"]
+
+[resource]
+playback_mode = 1
+streams_count = 12
+stream_0/stream = ExtResource("1_t7hwf")
+stream_1/stream = ExtResource("2_3i8rj")
+stream_2/stream = ExtResource("5_7ib01")
+stream_3/stream = ExtResource("6_e4jvp")
+stream_4/stream = ExtResource("7_mh3x8")
+stream_5/stream = ExtResource("8_6gk2b")
+stream_6/stream = ExtResource("9_gxgo0")
+stream_7/stream = ExtResource("10_dy0df")
+stream_8/stream = ExtResource("11_6n27n")
+stream_9/stream = ExtResource("12_xoswg")
+stream_10/stream = ExtResource("3_tk8db")
+stream_11/stream = ExtResource("4_kpino")

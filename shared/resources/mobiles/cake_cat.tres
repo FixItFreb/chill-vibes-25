@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MobileConfig" load_steps=4 format=3 uid="uid://snemydabu4rc"]
+
+[ext_resource type="AnimationLibrary" uid="uid://by0nn70krl1dw" path="res://shared/resources/anims/cake_cat_anims.tres" id="1_3nuu5"]
+[ext_resource type="PackedScene" uid="uid://cprl7de3byinb" path="res://shared/scenes/mobiles/cake_cat.tscn" id="2_l2hct"]
+[ext_resource type="Script" uid="uid://ba7331npou7th" path="res://shared/resources/mobiles/mobile_config.gd" id="3_hkqt5"]
+
+[resource]
+script = ExtResource("3_hkqt5")
+mesh_scene = ExtResource("2_l2hct")
+anim_library = ExtResource("1_3nuu5")
+mobile_name = "Cake Cat"
+metadata/_custom_type_script = ExtResource("3_hkqt5")

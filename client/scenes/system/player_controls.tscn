@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://w421yv7y4aaq"]
+
+[ext_resource type="Script" uid="uid://cnfpabtkyb51h" path="res://client/scripts/control/player_input_handler.gd" id="1_a286u"]
+[ext_resource type="Script" uid="uid://c1uyxeocd63qw" path="res://shared/scripts/system/remote_node3d.gd" id="2_bowlm"]
+
+[node name="PlayerControls" type="Node"]
+script = ExtResource("1_a286u")
+
+[node name="CamArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+spring_length = 3.0
+script = ExtResource("2_bowlm")
+track_rotation = false
+
+[node name="Camera3D" type="Camera3D" parent="CamArm"]

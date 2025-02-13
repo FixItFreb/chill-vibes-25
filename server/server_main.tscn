@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvx7s2ot7uhfw"]
+
+[ext_resource type="Script" uid="uid://7ovaio7vpjhg" path="res://server/server.gd" id="1_15vg1"]
+[ext_resource type="Script" uid="uid://cuxd4oiwdlo3b" path="res://server/scripts/system/world_manager_server.gd" id="2_uh23n"]
+[ext_resource type="PackedScene" uid="uid://bgtmd4fgp1yj2" path="res://server/scenes/system/zone_map_server.tscn" id="3_m5fri"]
+
+[node name="ServerMain" type="Node"]
+script = ExtResource("1_15vg1")
+
+[node name="Data" type="Node" parent="."]
+
+[node name="World" type="Node" parent="."]
+script = ExtResource("2_uh23n")
+zonemap_scene = ExtResource("3_m5fri")

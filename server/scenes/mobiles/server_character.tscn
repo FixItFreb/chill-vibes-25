@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://g7srkgm1sgtj"]
+
+[ext_resource type="Script" uid="uid://xtp6w75sxuqb" path="res://server/scripts/mobiles/server_character.gd" id="1_txwpx"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_k3skq"]
+radius = 10.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_txwpx"]
+radius = 0.1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bt4f7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rcq02"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="ServerCharacter" type="Node3D"]
+script = ExtResource("1_txwpx")
+
+[node name="SyncRange" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SyncRange"]
+shape = SubResource("SphereShape3D_k3skq")
+
+[node name="ClientRange" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ClientRange"]
+shape = SubResource("SphereShape3D_txwpx")
+
+[node name="OwnerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_bt4f7")
+public_visibility = false
+
+[node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rcq02")
+public_visibility = false

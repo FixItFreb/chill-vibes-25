@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://3705t5v33ghr"]
+
+[ext_resource type="Script" uid="uid://ctkeivp87gia4" path="res://client/scripts/mobiles/local_character.gd" id="1_prgg6"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yf8sn"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yg40m"]
+height = 1.8
+
+[node name="RemoteCharacter" type="CharacterBody3D"]
+script = ExtResource("1_prgg6")
+
+[node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yf8sn")
+public_visibility = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_yg40m")

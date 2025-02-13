@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cprl7de3byinb"]
+
+[ext_resource type="PackedScene" uid="uid://bg0mc4iog77o6" path="res://client/assets/meshes/cake-cat.glb" id="1_422o3"]
+[ext_resource type="Material" uid="uid://cstd86sq0ef0t" path="res://client/assets/materials/cake_cat/cat-face.tres" id="2_318ur"]
+[ext_resource type="PackedScene" uid="uid://352nha77gtvw" path="res://client/assets/meshes/foot.glb" id="2_bt33p"]
+[ext_resource type="Material" uid="uid://bgt74gks4nfm4" path="res://client/assets/materials/cake_cat/cat-butt.tres" id="3_jbaxf"]
+[ext_resource type="Material" uid="uid://bb4ciun6iwk4o" path="res://client/assets/materials/cake_cat/frosting.tres" id="4_5e078"]
+
+[node name="cake-cat" instance=ExtResource("1_422o3")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="body" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_318ur")
+surface_material_override/1 = ExtResource("3_jbaxf")
+
+[node name="frosting" parent="." index="1"]
+surface_material_override/0 = ExtResource("4_5e078")
+
+[node name="foot" parent="." index="6"]
+visible = false
+
+[node name="foot_anchor1" type="Node3D" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.449966, 0.9, 0.32746)
+
+[node name="foot2" parent="foot_anchor1" index="0" instance=ExtResource("2_bt33p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96214, -0.989642, 0.564908)
+
+[node name="foot_anchor2" type="Node3D" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75275, 0.9, 0.327)
+
+[node name="foot4" parent="foot_anchor2" index="0" instance=ExtResource("2_bt33p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96115, -0.989642, 0.56537)
+
+[node name="foot_anchor3" type="Node3D" parent="." index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.449966, 0.9, -0.327)
+
+[node name="foot1" parent="foot_anchor3" index="0" instance=ExtResource("2_bt33p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96214, -0.989642, 0.60616)
+
+[node name="foot_anchor4" type="Node3D" parent="." index="11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75275, 0.9, -0.327)
+
+[node name="foot3" parent="foot_anchor4" index="0" instance=ExtResource("2_bt33p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96115, -0.989642, 0.60616)

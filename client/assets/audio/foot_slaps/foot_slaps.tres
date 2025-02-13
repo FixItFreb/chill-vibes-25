@@ -1,0 +1,29 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=13 format=3 uid="uid://ltp8u7kbhxry"]
+
+[ext_resource type="AudioStream" uid="uid://bxmeb1n5p5kus" path="res://client/assets/audio/foot_slaps/01.wav" id="1_u0pxp"]
+[ext_resource type="AudioStream" uid="uid://dce02tditogve" path="res://client/assets/audio/foot_slaps/02.wav" id="2_bg88w"]
+[ext_resource type="AudioStream" uid="uid://6327vdmf5535" path="res://client/assets/audio/foot_slaps/11.wav" id="3_fksvb"]
+[ext_resource type="AudioStream" uid="uid://dds750yn8vywk" path="res://client/assets/audio/foot_slaps/12.wav" id="4_ex5yn"]
+[ext_resource type="AudioStream" uid="uid://c3b8jv7toiw85" path="res://client/assets/audio/foot_slaps/03.wav" id="5_2x5tw"]
+[ext_resource type="AudioStream" uid="uid://ddejno10h7th8" path="res://client/assets/audio/foot_slaps/04.wav" id="6_h2an5"]
+[ext_resource type="AudioStream" uid="uid://d2vf7gwj10gsn" path="res://client/assets/audio/foot_slaps/05.wav" id="7_os28l"]
+[ext_resource type="AudioStream" uid="uid://cishihc707m2j" path="res://client/assets/audio/foot_slaps/06.wav" id="8_vche2"]
+[ext_resource type="AudioStream" uid="uid://c0as2w5pek1ik" path="res://client/assets/audio/foot_slaps/07.wav" id="9_xhew7"]
+[ext_resource type="AudioStream" uid="uid://b4nmfcgnfnjnb" path="res://client/assets/audio/foot_slaps/08.wav" id="10_uaqsr"]
+[ext_resource type="AudioStream" uid="uid://dwhastcxcoho3" path="res://client/assets/audio/foot_slaps/09.wav" id="11_a8kqn"]
+[ext_resource type="AudioStream" uid="uid://d37kds2ehpkco" path="res://client/assets/audio/foot_slaps/10.wav" id="12_p5ios"]
+
+[resource]
+streams_count = 12
+stream_0/stream = ExtResource("1_u0pxp")
+stream_1/stream = ExtResource("2_bg88w")
+stream_2/stream = ExtResource("5_2x5tw")
+stream_3/stream = ExtResource("6_h2an5")
+stream_4/stream = ExtResource("7_os28l")
+stream_5/stream = ExtResource("8_vche2")
+stream_6/stream = ExtResource("9_xhew7")
+stream_7/stream = ExtResource("10_uaqsr")
+stream_8/stream = ExtResource("11_a8kqn")
+stream_9/stream = ExtResource("12_p5ios")
+stream_10/stream = ExtResource("3_fksvb")
+stream_11/stream = ExtResource("4_ex5yn")

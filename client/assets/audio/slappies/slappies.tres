@@ -1,0 +1,25 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=11 format=3 uid="uid://8rxvox3qoo73"]
+
+[ext_resource type="AudioStream" uid="uid://teximvy175o4" path="res://client/assets/audio/slappies/slappie_01.wav" id="1_kkmq3"]
+[ext_resource type="AudioStream" uid="uid://dlearl5ttqvlg" path="res://client/assets/audio/slappies/slappie_02.wav" id="2_q40yh"]
+[ext_resource type="AudioStream" uid="uid://cs5bgsvnrqfsb" path="res://client/assets/audio/slappies/slappie_03.wav" id="3_r3tus"]
+[ext_resource type="AudioStream" uid="uid://ukqte63aiyr2" path="res://client/assets/audio/slappies/slappie_04.wav" id="4_gltxq"]
+[ext_resource type="AudioStream" uid="uid://dqh4uba24x4sr" path="res://client/assets/audio/slappies/slappie_05.wav" id="5_fy0i0"]
+[ext_resource type="AudioStream" uid="uid://5bogbx8eoea5" path="res://client/assets/audio/slappies/slappie_06.wav" id="6_eksa1"]
+[ext_resource type="AudioStream" uid="uid://6etwp7m70xed" path="res://client/assets/audio/slappies/slappie_07.wav" id="7_ijevk"]
+[ext_resource type="AudioStream" uid="uid://cnqfilg586d5c" path="res://client/assets/audio/slappies/slappie_08.wav" id="8_yg47k"]
+[ext_resource type="AudioStream" uid="uid://b4dbgfdkdx285" path="res://client/assets/audio/slappies/slappie_09.wav" id="9_lhc38"]
+[ext_resource type="AudioStream" uid="uid://b6j3yqof70ia8" path="res://client/assets/audio/slappies/slappie_10.wav" id="10_yf6rm"]
+
+[resource]
+streams_count = 10
+stream_0/stream = ExtResource("1_kkmq3")
+stream_1/stream = ExtResource("2_q40yh")
+stream_2/stream = ExtResource("3_r3tus")
+stream_3/stream = ExtResource("4_gltxq")
+stream_4/stream = ExtResource("5_fy0i0")
+stream_5/stream = ExtResource("6_eksa1")
+stream_6/stream = ExtResource("7_ijevk")
+stream_7/stream = ExtResource("8_yg47k")
+stream_8/stream = ExtResource("9_lhc38")
+stream_9/stream = ExtResource("10_yf6rm")
