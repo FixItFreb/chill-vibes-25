@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddttoe4mc8dbg"]
+
+[ext_resource type="PackedScene" uid="uid://b60l726r7eket" path="res://shared/scenes/entities/base_mobile.tscn" id="1_rvaos"]
+[ext_resource type="Script" uid="uid://dccmqjnlmjtmu" path="res://shared/scripts/mobile/player_mobile.gd" id="2_5g5nk"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ny4yu"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rvaos"]
+
+[node name="PlayerMobile" instance=ExtResource("1_rvaos")]
+script = ExtResource("2_5g5nk")
+mobile_name = "Player"
+mobile_config_id = &"cake_cat"
+
+[node name="OwnerSync" type="MultiplayerSynchronizer" parent="." index="0"]
+replication_config = SubResource("SceneReplicationConfig_ny4yu")
+public_visibility = false
+
+[node name="AnimationPlayer" parent="." index="4"]
+libraries = {
+&"": SubResource("AnimationLibrary_rvaos")
+}

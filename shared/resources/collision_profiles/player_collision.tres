@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CollisionProfile" load_steps=3 format=3 uid="uid://cvrjt27sab8wt"]
+
+[ext_resource type="Script" uid="uid://djxderyrovju0" path="res://shared/resources/collision_profiles/collision_profile.gd" id="1_862xm"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_862xm"]
+radius = 0.7
+
+[resource]
+script = ExtResource("1_862xm")
+collision_shape = SubResource("CapsuleShape3D_862xm")
+collision_offset_pos = Vector3(0, 0.7, 0)
+collision_offset_rot = Vector3(90, 0, 0)
+metadata/_custom_type_script = ExtResource("1_862xm")

@@ -9,6 +9,7 @@ class_name RemoteNode3D
 func _physics_process(_delta: float) -> void:
 	if !tracked:
 		process_mode = Node.PROCESS_MODE_DISABLED
+		return
 	
 	if track_position:
 		global_position = tracked.global_position

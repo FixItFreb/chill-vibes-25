@@ -1,12 +1,21 @@
-[gd_resource type="Resource" script_class="MobileConfig" load_steps=4 format=3 uid="uid://snemydabu4rc"]
+[gd_resource type="Resource" script_class="MobileConfig" load_steps=5 format=3 uid="uid://snemydabu4rc"]
 
 [ext_resource type="AnimationLibrary" uid="uid://by0nn70krl1dw" path="res://shared/resources/anims/cake_cat_anims.tres" id="1_3nuu5"]
-[ext_resource type="PackedScene" uid="uid://cprl7de3byinb" path="res://shared/scenes/mobiles/cake_cat.tscn" id="2_l2hct"]
+[ext_resource type="PackedScene" uid="uid://cprl7de3byinb" path="res://shared/scenes/mesh/cake_cat.tscn" id="2_3nuu5"]
 [ext_resource type="Script" uid="uid://ba7331npou7th" path="res://shared/resources/mobiles/mobile_config.gd" id="3_hkqt5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3nuu5"]
+radius = 0.7
 
 [resource]
 script = ExtResource("3_hkqt5")
-mesh_scene = ExtResource("2_l2hct")
+mesh_scene = ExtResource("2_3nuu5")
 anim_library = ExtResource("1_3nuu5")
 mobile_name = "Cake Cat"
+mesh_scene_id = &"cake_cat"
+anim_library_id = &"cake_cat_anims"
+collision_profile_id = &"player_collision"
+collision_shape = SubResource("CapsuleShape3D_3nuu5")
+collision_offset_pos = Vector3(0, 0.7, 0)
+collision_offset_rot = Vector3(90, 0, 0)
 metadata/_custom_type_script = ExtResource("3_hkqt5")

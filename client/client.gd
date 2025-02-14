@@ -54,7 +54,9 @@ func join(address: String, port: int) -> void:
 
 # Request to join game at specific map
 func join_game() -> void:
-	world_manager.open_zonemap.rpc("uid://c222siboj2ed")
+	#world_manager.open_zonemap.rpc("uid://c222siboj2ed")
+	world_manager.request_map.rpc("test_map_01")
+
 	# if current_zonemap != null:
 	# 	var player_spawn_data: Dictionary = {
 	# 		"spawn_type" : "player",
@@ -62,3 +64,5 @@ func join_game() -> void:
 	# 	}
 	# 	current_zonemap.entity_spawner.spawn(player_spawn_data)
 	# 	pass
+
+

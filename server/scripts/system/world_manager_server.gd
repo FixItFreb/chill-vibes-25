@@ -1,9 +1,11 @@
 extends Node
 class_name WorldManager
 
+@onready var world_spawner: EntitySpawner = $WorldSpawner
 @export var zonemap_scene: PackedScene
 
 # TODO: Make sure the client waits for server loading
+# TODO: Probably replace this with a MultiplayerSpawner
 @rpc("any_peer", "call_remote", "reliable")
 func open_zonemap(map_path: String) -> ZoneMap:
 	var sender_id: int = multiplayer.get_remote_sender_id()
@@ -32,3 +34,26 @@ func open_zonemap(map_path: String) -> ZoneMap:
 # @rpc("any_peer", "call_remote", "reliable")
 # func open_zonemap_local(map_path: String):
 # 	open_zonemap(map_path)
+
+@rpc("any_peer", "call_remote", "reliable")
+func request_map(map_name: String) -> ZoneMap:
+	var sender_id: int = multiplayer.get_remote_sender_id()
+	# Execute if we are the server
+	if multiplayer.is_server():
+		# Check to see if this map is already loaded
+		var zonemap: ZoneMap = find_child(map_name)
+		if zonemap == null:
+			var world_spawn_data: Dictionary = {
+				"entity_type": "map",
+				"map_name": map_name
+			}
+			zonemap = world_spawner.spawn(world_spawn_data)
+			move_player_to_map(sender_id)
+		move_player_to_map(sender_id)
+		return zonemap
+	return null
+
+func move_player_to_map(peer_id: int) -> void:
+	# TODO: Move the requesting player to the new map
+	print("Moving player: %s to new map." % [peer_id])
+	pass

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0wupvntt0k1u"]
+
+[ext_resource type="PackedScene" uid="uid://b82mdtm7gb5iu" path="res://shared/scenes/system/zone_map_base.tscn" id="1_dj5k2"]
+[ext_resource type="Texture2D" uid="uid://2bomdpcwp48g" path="res://client/assets/meshes/cake-cat_cat-face-texture.png" id="2_twlua"]
+
+[node name="ZoneMapBase" instance=ExtResource("1_dj5k2")]
+
+[node name="Sprite3D" type="Sprite3D" parent="Map" index="0"]
+billboard = 1
+texture = ExtResource("2_twlua")

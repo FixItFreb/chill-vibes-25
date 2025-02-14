@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://w421yv7y4aaq" path="res://client/scenes/system/player_controls.tscn" id="1_7h3yc"]
 [ext_resource type="Script" uid="uid://dnbdsh30g1ipn" path="res://test/test_gym.gd" id="1_loo1a"]
-[ext_resource type="PackedScene" uid="uid://c2y0abvhkn16a" path="res://client/scenes/mobiles/player_character.tscn" id="2_2hsph"]
+[ext_resource type="PackedScene" uid="uid://ddttoe4mc8dbg" path="res://shared/scenes/entities/player_mobile.tscn" id="3_loo1a"]
 
 [sub_resource type="Environment" id="Environment_loo1a"]
 background_mode = 1
@@ -31,13 +31,13 @@ player_input = NodePath("PlayerControls")
 
 [node name="PlayerControls" parent="." instance=ExtResource("1_7h3yc")]
 
-[node name="CamArm" parent="PlayerControls" index="0"]
+[node name="CamArm" parent="PlayerControls" index="0" node_paths=PackedStringArray("tracked")]
 transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642787, 0, -0.642787, 0.766044, 0, 0, 0)
 collision_mask = 0
 spring_length = 8.0
+tracked = NodePath("../../PlayerMobile")
 
-[node name="PlayerCharacter" parent="." instance=ExtResource("2_2hsph")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88574, 0)
+[node name="PlayerMobile" parent="." instance=ExtResource("3_loo1a")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_loo1a")
@@ -64,4 +64,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.698, 0, -10.64)
 mesh = SubResource("CylinderMesh_0aybk")
 
 [editable path="PlayerControls"]
-[editable path="PlayerCharacter"]

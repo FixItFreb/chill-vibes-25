@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b82mdtm7gb5iu"]
+[gd_scene load_steps=4 format=3 uid="uid://b82mdtm7gb5iu"]
 
 [ext_resource type="Script" uid="uid://ciq7wgyhld3mm" path="res://shared/scripts/system/zone_map.gd" id="1_by6oa"]
+[ext_resource type="Script" uid="uid://cf8clwi6ap1n8" path="res://server/scripts/system/entity_spawner.gd" id="2_36rj6"]
 
 [sub_resource type="World3D" id="World3D_bw5j1"]
 
@@ -11,10 +12,8 @@ script = ExtResource("1_by6oa")
 
 [node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../DynamicEntities")
+script = ExtResource("2_36rj6")
 
 [node name="DynamicEntities" type="Node" parent="."]
-
-[node name="MapSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("../Map")
 
 [node name="Map" type="Node" parent="."]

@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2y0abvhkn16a"]
+[gd_scene load_steps=7 format=3 uid="uid://c2y0abvhkn16a"]
 
 [ext_resource type="Script" uid="uid://dccmqjnlmjtmu" path="res://shared/scripts/mobile/player_mobile.gd" id="1_5pc41"]
-[ext_resource type="Resource" uid="uid://snemydabu4rc" path="res://shared/resources/mobiles/cake_cat.tres" id="2_etvm8"]
 [ext_resource type="Script" uid="uid://mx0l2xtjfhmu" path="res://shared/scripts/mobile/mobile_locomotion.gd" id="2_x8xpq"]
 [ext_resource type="Script" uid="uid://c82kgiq2hgce" path="res://shared/scripts/system/damageable.gd" id="3_5pc41"]
 
@@ -17,7 +16,6 @@ radius = 0.7
 
 [node name="PlayerCharacter" type="CharacterBody3D"]
 script = ExtResource("1_5pc41")
-mobile_config = ExtResource("2_etvm8")
 
 [node name="Locomotion" type="Node" parent="."]
 script = ExtResource("2_x8xpq")
