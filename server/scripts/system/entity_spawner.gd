@@ -20,6 +20,7 @@ func on_spawn(data: Variant) -> Node:
 			to_spawn = ResourcesDB.get_entity_scene("player_mobile")
 			var player_node: PlayerMobile = to_spawn.instantiate()
 			player_node.mobile_config_id = spawn_data["mobile_config_id"]
+
 			# TODO: Load player saved data here?
 			return player_node
 		"base_mobile":
@@ -32,5 +33,14 @@ func on_spawn(data: Variant) -> Node:
 			to_spawn = ResourcesDB.get_map_scene(map_name)
 			var map_node: ZoneMap = to_spawn.instantiate()
 			map_node.name = map_name
+			
+			if spawn_data["sender_id"] == multiplayer.get_unique_id():
+				print("%s: Local map" % [Time.get_datetime_string_from_system()])
+			elif spawn_data["sender_id"] != multiplayer.get_unique_id():
+				if multiplayer.is_server():
+					print("%s: Server" % [Time.get_datetime_string_from_system()])
+				else:
+					print("%s: Client" % [Time.get_datetime_string_from_system()])
+
 			return map_node
 	return spawned_node

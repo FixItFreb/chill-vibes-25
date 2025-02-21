@@ -46,6 +46,6 @@ func host(port: int) -> void:
 
 	multiplayer.peer_disconnected.connect(
 		func(peer_id: int):
-			print("%s - Client disconnected: " % [name, str(peer_id)])
+			print("%s - Client disconnected: %s" % [name, str(peer_id)])
 	)
 	

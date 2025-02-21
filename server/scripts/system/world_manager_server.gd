@@ -40,17 +40,24 @@ func request_map(map_name: String) -> ZoneMap:
 	var sender_id: int = multiplayer.get_remote_sender_id()
 	# Execute if we are the server
 	if multiplayer.is_server():
+		#print("%s is server" % [multiplayer.get_unique_id()])
 		# Check to see if this map is already loaded
-		var zonemap: ZoneMap = find_child(map_name)
-		if zonemap == null:
+		var zonemap: ZoneMap = null
+		var found_map: bool = false
+		for n in get_children():
+			if n.name == map_name:
+				found_map = true
+		if !found_map:
 			var world_spawn_data: Dictionary = {
 				"entity_type": "map",
-				"map_name": map_name
+				"map_name": map_name,
+				"sender_id": sender_id
 			}
 			zonemap = world_spawner.spawn(world_spawn_data)
 			move_player_to_map(sender_id)
 		move_player_to_map(sender_id)
 		return zonemap
+	#print("%s is not server" % [multiplayer.get_unique_id()])
 	return null
 
 func move_player_to_map(peer_id: int) -> void:
