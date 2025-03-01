@@ -1,0 +1,2 @@
+extends NetBridge
+class_name NetBridgeServer

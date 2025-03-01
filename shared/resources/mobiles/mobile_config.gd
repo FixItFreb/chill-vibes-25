@@ -28,8 +28,9 @@ func apply_collision_shape(collision: CollisionShape3D) -> void:
 # Iterates through anims in the config anim library and adds them to the mobiles global anim library
 func add_anims(anim_player: AnimationPlayer) -> void:
 	if anim_library_id.length() > 0:
-		var new_library: AnimationLibrary = ResourcesDB.get_anims_library(anim_library_id)
-		if new_library:
-			var global_anims: AnimationLibrary = anim_player.get_animation_library("")
-			for anim_name: StringName in new_library.get_animation_list():
-				global_anims.add_animation(anim_name, new_library.get_animation(anim_name))
+		var anim_library: AnimationLibrary = ResourcesDB.get_anims_library(anim_library_id)
+		if anim_library:
+			var mobile_anims: AnimationLibrary = anim_player.get_animation_library("")
+			#Debugger.log("Anim count: %s" % [mobile_anims.get_animation_list_size()], anim_player)
+			for anim_name: StringName in anim_library.get_animation_list():
+				mobile_anims.add_animation(anim_name, anim_library.get_animation(anim_name))

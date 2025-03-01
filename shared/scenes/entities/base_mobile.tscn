@@ -11,11 +11,11 @@ script = ExtResource("1_wrbgb")
 
 [node name="Locomotion" type="Node" parent="."]
 script = ExtResource("2_nwis1")
-metadata/_custom_type_script = ExtResource("2_nwis1")
+metadata/_custom_type_script = "uid://mx0l2xtjfhmu"
 
 [node name="Damageable" type="Node" parent="."]
 script = ExtResource("3_hin2f")
-metadata/_custom_type_script = ExtResource("3_hin2f")
+metadata/_custom_type_script = "uid://c82kgiq2hgce"
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

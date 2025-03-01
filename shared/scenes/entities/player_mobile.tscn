@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddttoe4mc8dbg"]
+[gd_scene load_steps=6 format=3 uid="uid://ddttoe4mc8dbg"]
 
 [ext_resource type="PackedScene" uid="uid://b60l726r7eket" path="res://shared/scenes/entities/base_mobile.tscn" id="1_rvaos"]
 [ext_resource type="Script" uid="uid://dccmqjnlmjtmu" path="res://shared/scripts/mobile/player_mobile.gd" id="2_5g5nk"]
@@ -7,10 +7,40 @@
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimationPlayer:current_animation")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:owner_id")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:mobile_name")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qgy6g"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:owner_id")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:mobile_name")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("AnimationPlayer:current_animation")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rvaos"]
 
 [node name="PlayerMobile" instance=ExtResource("1_rvaos")]
+collision_layer = 2
 script = ExtResource("2_5g5nk")
 mobile_name = "Player"
 mobile_config_id = &"cake_cat"
@@ -19,7 +49,13 @@ mobile_config_id = &"cake_cat"
 replication_config = SubResource("SceneReplicationConfig_ny4yu")
 public_visibility = false
 
-[node name="AnimationPlayer" parent="." index="4"]
+[node name="RemoteSync" type="MultiplayerSynchronizer" parent="." index="1"]
+replication_config = SubResource("SceneReplicationConfig_qgy6g")
+public_visibility = false
+
+[node name="Node" type="Node" parent="." index="2"]
+
+[node name="AnimationPlayer" parent="." index="6"]
 libraries = {
 &"": SubResource("AnimationLibrary_rvaos")
 }

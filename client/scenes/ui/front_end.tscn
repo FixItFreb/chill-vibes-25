@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://x3uxl2nnn5xy" path="res://client/scripts/ui/front_end_ui.gd" id="1_4p7on"]
 
-[node name="FrontEnd" type="Control" node_paths=PackedStringArray("host_button", "join_button")]
+[node name="FrontEnd" type="Control" node_paths=PackedStringArray("host_button", "join_button", "dedicated_button", "name_text_entry")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -12,10 +12,13 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4p7on")
-host_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/HostButton")
-join_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/JoinButton")
+host_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HostButton")
+join_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/JoinButton")
+dedicated_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DedicatedButton")
+name_text_entry = NodePath("PanelContainer/MarginContainer/VBoxContainer/NameBox/NameLineEdit")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -38,12 +41,40 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="NameBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+text = "NAME :"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+
+[node name="NameLineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Testma"
 alignment = 1
 
-[node name="HostButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
-text = "Host "
 
-[node name="JoinButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="HostButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Join"
+
+[node name="DedicatedButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dedicated"

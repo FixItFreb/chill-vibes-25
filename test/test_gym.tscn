@@ -16,11 +16,11 @@ orientation = 1
 [sub_resource type="BoxShape3D" id="BoxShape3D_loo1a"]
 size = Vector3(100, 1, 100)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjna7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_loo1a"]
 albedo_color = Color(1, 0.847059, 0.552941, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_0aybk"]
-material = SubResource("StandardMaterial3D_pjna7")
+material = SubResource("StandardMaterial3D_loo1a")
 top_radius = 5.0
 bottom_radius = 5.0
 height = 2.5
@@ -31,11 +31,9 @@ player_input = NodePath("PlayerControls")
 
 [node name="PlayerControls" parent="." instance=ExtResource("1_7h3yc")]
 
-[node name="CamArm" parent="PlayerControls" index="0" node_paths=PackedStringArray("tracked")]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642787, 0, -0.642787, 0.766044, 0, 0, 0)
-collision_mask = 0
-spring_length = 8.0
-tracked = NodePath("../../PlayerMobile")
+[node name="CamArm" parent="PlayerControls/CameraMount" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 0, 0)
+spring_length = 10.0
 
 [node name="PlayerMobile" parent="." instance=ExtResource("3_loo1a")]
 

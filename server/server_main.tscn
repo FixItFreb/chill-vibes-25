@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvx7s2ot7uhfw"]
+[gd_scene load_steps=6 format=3 uid="uid://cvx7s2ot7uhfw"]
 
 [ext_resource type="Script" uid="uid://7ovaio7vpjhg" path="res://server/server.gd" id="1_15vg1"]
+[ext_resource type="Script" uid="uid://cpeqv82idw3mc" path="res://shared/scripts/system/net_bridge.gd" id="2_g8r77"]
 [ext_resource type="Script" uid="uid://cuxd4oiwdlo3b" path="res://server/scripts/system/world_manager_server.gd" id="2_uh23n"]
 [ext_resource type="PackedScene" uid="uid://b82mdtm7gb5iu" path="res://shared/scenes/system/zone_map_base.tscn" id="3_m5fri"]
 [ext_resource type="Script" uid="uid://cf8clwi6ap1n8" path="res://server/scripts/system/entity_spawner.gd" id="4_3nqw4"]
@@ -8,7 +9,16 @@
 [node name="ServerMain" type="Node"]
 script = ExtResource("1_15vg1")
 
+[node name="NetBridge" type="Node" parent="."]
+script = ExtResource("2_g8r77")
+metadata/_custom_type_script = "uid://cpeqv82idw3mc"
+
 [node name="Data" type="Node" parent="."]
+
+[node name="DataSpawner" type="MultiplayerSpawner" parent="Data"]
+spawn_path = NodePath("..")
+script = ExtResource("4_3nqw4")
+metadata/_custom_type_script = "uid://cf8clwi6ap1n8"
 
 [node name="World" type="Node" parent="."]
 script = ExtResource("2_uh23n")
@@ -17,4 +27,4 @@ zonemap_scene = ExtResource("3_m5fri")
 [node name="WorldSpawner" type="MultiplayerSpawner" parent="World"]
 spawn_path = NodePath("..")
 script = ExtResource("4_3nqw4")
-metadata/_custom_type_script = ExtResource("4_3nqw4")
+metadata/_custom_type_script = "uid://cf8clwi6ap1n8"

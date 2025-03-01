@@ -1,10 +1,56 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0wupvntt0k1u"]
+[gd_scene load_steps=8 format=3 uid="uid://b0wupvntt0k1u"]
 
 [ext_resource type="PackedScene" uid="uid://b82mdtm7gb5iu" path="res://shared/scenes/system/zone_map_base.tscn" id="1_dj5k2"]
 [ext_resource type="Texture2D" uid="uid://2bomdpcwp48g" path="res://client/assets/meshes/cake-cat_cat-face-texture.png" id="2_twlua"]
 
-[node name="ZoneMapBase" instance=ExtResource("1_dj5k2")]
+[sub_resource type="QuadMesh" id="QuadMesh_twlua"]
+size = Vector2(100, 100)
+orientation = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0hcil"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1pbj"]
+albedo_color = Color(1, 0.847059, 0.552941, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yhmwn"]
+material = SubResource("StandardMaterial3D_d1pbj")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 2.5
+
+[sub_resource type="Environment" id="Environment_twlua"]
+background_mode = 1
+background_color = Color(0.412152, 0.412152, 0.412152, 1)
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="TestMap01" instance=ExtResource("1_dj5k2")]
 
 [node name="Sprite3D" type="Sprite3D" parent="Map" index="0"]
+visible = false
 billboard = 1
 texture = ExtResource("2_twlua")
+
+[node name="World" type="Node" parent="Map" index="1"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/World" index="0"]
+mesh = SubResource("QuadMesh_twlua")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/World/MeshInstance3D" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/World/MeshInstance3D/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_0hcil")
+
+[node name="Cake" type="Node3D" parent="Map/World" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.698, 0, -10.64)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/World/Cake" index="0"]
+mesh = SubResource("CylinderMesh_yhmwn")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map" index="3"]
+environment = SubResource("Environment_twlua")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map/WorldEnvironment" index="0"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true

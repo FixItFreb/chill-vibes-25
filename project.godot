@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Slappy Cats"
+run/main_scene="uid://dxtfoe0g5oq8j"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

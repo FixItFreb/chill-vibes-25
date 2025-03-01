@@ -4,63 +4,41 @@ class_name WorldManager
 @onready var world_spawner: EntitySpawner = $WorldSpawner
 @export var zonemap_scene: PackedScene
 
-# TODO: Make sure the client waits for server loading
-# TODO: Probably replace this with a MultiplayerSpawner
-@rpc("any_peer", "call_remote", "reliable")
-func open_zonemap(map_path: String) -> ZoneMap:
-	var sender_id: int = multiplayer.get_remote_sender_id()
-	# Execute if we are the server OR the calling client
-	if multiplayer.is_server() or sender_id == multiplayer.get_unique_id() or sender_id == 0:
-		var map_uid: String = str(ResourceLoader.get_resource_uid(map_path))
-		# Check to see if this map is already loaded
-		var zonemap: ZoneMap = find_child(map_uid)
-		if zonemap == null:
-			var map: Node = (load(map_path) as PackedScene).instantiate()
-			map.name = (map.get_node("Data") as MapData).map_name
-			zonemap = zonemap_scene.instantiate() as ZoneMap
-			zonemap.name = map_uid
-			zonemap.add_child(map)
-			zonemap.ready.connect(
-				func on_zonemap_ready():
-					# This is where we need to reparent the player character
-					# if multiplayer.is_server():
-					# 	rpc_id(sender_id, "open_zonemap_local", map_path)
-					pass
-			)
-			add_child(zonemap)
-		return zonemap
-	return null
-
-# @rpc("any_peer", "call_remote", "reliable")
-# func open_zonemap_local(map_path: String):
-# 	open_zonemap(map_path)
-
-@rpc("any_peer", "call_remote", "reliable")
-func request_map(map_name: String) -> ZoneMap:
-	var sender_id: int = multiplayer.get_remote_sender_id()
+func load_zonemap(zonemap_id: String) -> ZoneMap:
 	# Execute if we are the server
-	if multiplayer.is_server():
+	if multiplayer.is_server() && zonemap_id.length() > 0:
 		#print("%s is server" % [multiplayer.get_unique_id()])
 		# Check to see if this map is already loaded
 		var zonemap: ZoneMap = null
 		var found_map: bool = false
 		for n in get_children():
-			if n.name == map_name:
+			if n.name == zonemap_id:
 				found_map = true
+				zonemap = n
 		if !found_map:
 			var world_spawn_data: Dictionary = {
 				"entity_type": "map",
-				"map_name": map_name,
-				"sender_id": sender_id
+				"map_name": zonemap_id
 			}
 			zonemap = world_spawner.spawn(world_spawn_data)
-			move_player_to_map(sender_id)
-		move_player_to_map(sender_id)
 		return zonemap
 	#print("%s is not server" % [multiplayer.get_unique_id()])
 	return null
 
-func move_player_to_map(peer_id: int) -> void:
-	# TODO: Move the requesting player to the new map
-	print("Moving player: %s to new map." % [peer_id])
-	pass
+func move_player_to_zonemap(player_data: PlayerData, zonemap: ZoneMap, _zonemap_entrance: StringName) -> bool:
+	# TODO: Add removing player from current zonemap. Probably need to detach all synchronizers _before_ freeing/moving player.
+	if player_data:
+		# Is this a new zone or just an in zone teleport?
+		var new_zone: bool = player_data.current_zonemap_id != zonemap.name
+		# If it is a new zone update our current zone data
+		if new_zone:
+			player_data.current_zonemap_id = zonemap.name
+			var player_mobile: PlayerMobile = zonemap.entity_spawner.spawn_player(player_data)
+			player_mobile.owner_sync.set_visibility_for(player_data.player_id, true)
+			player_data.player_mobile = player_mobile
+			# TODO: Move player mobile to the specified entrance point
+			return true
+	return false
+
+func remove_player_from_zonemap(player_data: PlayerData, zonemap: ZoneMap) -> bool:
+	return true

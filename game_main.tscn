@@ -16,6 +16,13 @@ world_3d = SubResource("World3D_yn5om")
 
 [node name="ClientMain" parent="." instance=ExtResource("2_tjf8n")]
 
+[node name="CamArm" parent="ClientMain/PlayerControls/CameraMount" index="0"]
+collision_mask = 0
+spring_length = 10.0
+
+[node name="World" parent="ClientMain" index="3"]
+stretch = true
+
 [node name="FrontEnd" parent="." instance=ExtResource("3_3ticj")]
 
 [editable path="ServerWorld/ServerMain"]
