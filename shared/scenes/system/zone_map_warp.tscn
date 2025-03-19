@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://b02ja7wj5aot5"]
+
+[ext_resource type="Script" uid="uid://emqtw5lsu78j" path="res://shared/scripts/system/zonemap_warp.gd" id="1_7ubkj"]
+
+[node name="ZoneMapWarp" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_7ubkj")
+destination_entry_id = &"Default"
+metadata/_custom_type_script = "uid://emqtw5lsu78j"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="EntryPoints" type="Node3D" parent="."]

@@ -1,10 +1,18 @@
 extends Node
 class_name ZoneMap
 
-@onready var entity_spawner: EntitySpawner = $EntitySpawner
+@onready var entity_spawner: EntitySpawner = %EntitySpawner
 @onready var map_area: Area3D = $MapArea
+@onready var server_sync: MultiplayerSynchronizer = $ServerSync
 
+var world: ZoneMapWorld
 var players_in_zone: Array[int]
+@export var entry_points: Array[Node3D]
+
+var zonemap_id: StringName:
+	get:
+		return world.name
+
 
 signal on_player_join(player: PlayerMobile)
 signal on_player_leave(player: PlayerMobile)
@@ -18,10 +26,26 @@ func _ready() -> void:
 	$DynamicEntities.child_entered_tree.connect(on_spawned_entity_added)
 	$DynamicEntities.child_exiting_tree.connect(on_spawned_entity_removed)
 
+	# Store all static entry points
+	for entry_point: Node in $Map/EntryPoints.get_children():
+		entry_points.append(entry_point)
+
+func _exit_tree() -> void:
+	# If we are a client, then the player camera is a child of this node so let's move it back out
+	if !multiplayer.is_server():
+		Client.instance.player_controls.recover_cam()
+
+func get_entry_point(entry_point_id: StringName) -> Node3D:
+	for entry_point: Node3D in entry_points:
+		if entry_point.name == entry_point_id:
+			return entry_point
+	return null
+
 func add_player_to_zone(to_add: PlayerMobile) -> bool:
 	if !players_in_zone.has(to_add.owner_id):
 		players_in_zone.append(to_add.owner_id)
 		on_player_join.emit(to_add)
+		Debugger.log("Player %s entered %s" % [to_add.mobile_name, world.name], self)
 		return true
 	return false
 
@@ -29,6 +53,7 @@ func remove_player_from_zone(to_remove: PlayerMobile) -> bool:
 	if players_in_zone.has(to_remove.owner_id):
 		players_in_zone.erase(to_remove.owner_id)
 		on_player_leave.emit(to_remove)
+		Debugger.log("Player %s left %s" % [to_remove.mobile_name, world.name], self)
 		return true
 	return false
 

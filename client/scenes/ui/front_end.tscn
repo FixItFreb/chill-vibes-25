@@ -2,79 +2,110 @@
 
 [ext_resource type="Script" uid="uid://x3uxl2nnn5xy" path="res://client/scripts/ui/front_end_ui.gd" id="1_4p7on"]
 
-[node name="FrontEnd" type="Control" node_paths=PackedStringArray("host_button", "join_button", "dedicated_button", "name_text_entry")]
+[node name="FrontEnd" type="Control"]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4p7on")
-host_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HostButton")
-join_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/JoinButton")
-dedicated_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DedicatedButton")
-name_text_entry = NodePath("PanelContainer/MarginContainer/VBoxContainer/NameBox/NameLineEdit")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="SetupPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -34.5
-offset_top = -43.0
-offset_right = 34.5
-offset_bottom = 43.0
+offset_left = -100.0
+offset_top = 100.0
+offset_right = 100.0
+offset_bottom = 221.0
 grow_horizontal = 2
-grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="SetupPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SetupPanel/MarginContainer"]
 layout_mode = 2
 
-[node name="NameBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="SetupPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SLAPPY CATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SetupPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="HostButton" type="Button" parent="SetupPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="SetupPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Join"
+
+[node name="DedicatedButton" type="Button" parent="SetupPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Dedicated"
+
+[node name="ConnectedPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 100.0
+offset_right = 100.0
+offset_bottom = 140.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectedPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConnectedPanel/MarginContainer"]
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/NameBox"]
+[node name="NameBox" type="HBoxContainer" parent="ConnectedPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="ConnectedPanel/MarginContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 text = "NAME :"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/NameBox"]
+[node name="Spacer" type="Control" parent="ConnectedPanel/MarginContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 
-[node name="NameLineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/NameBox"]
+[node name="NameTextEntry" type="LineEdit" parent="ConnectedPanel/MarginContainer/VBoxContainer/NameBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Testma"
 alignment = 1
 
-[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="ConnectedPanel/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="StartGameButton" type="Button" parent="ConnectedPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-alignment = 1
-
-[node name="HostButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Host"
-
-[node name="JoinButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Join"
-
-[node name="DedicatedButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Dedicated"
+text = "Start Game"

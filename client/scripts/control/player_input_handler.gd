@@ -20,3 +20,6 @@ func set_controlled(new_controlled: CharacterBody3D) -> void:
 	controlled = new_controlled.get_node("Locomotion")
 	if controlled:
 		player_cam_mount.set_tracked_node(new_controlled)
+
+func recover_cam() -> void:
+	player_cam_mount.reparent(self)

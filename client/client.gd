@@ -61,10 +61,10 @@ func join(address: String, port: int) -> void:
 
 	multiplayer.connected_to_server.connect(
 		func():
-			Debugger.log("Connected to server", self)
 			# Do new game stuff here...
 			player_id = multiplayer.get_unique_id()
-			request_spawn_player()
+			#request_spawn_player()
+			Debugger.log("Connected to server with ID: %s" % [player_id], self)
 	)
 
 	multiplayer.server_disconnected.connect(
@@ -84,6 +84,7 @@ func request_spawn_player() -> void:
 # TODO: Move camera out to a safe place before we zone
 func init_player_done(_init_data: Dictionary) -> void:
 	player_data_ready = true
+	# TODO: This should be loaded from the player save...
 	var zonemap_data: Dictionary = {
 		"zonemap_id": player_map
 	}
@@ -93,6 +94,7 @@ func init_player_done(_init_data: Dictionary) -> void:
 func join_new_zonemap(new_zonemap: ZoneMap) -> void:
 	Debugger.log("Joining ZoneMap: %s" % [new_zonemap.name], self)
 	current_zonemap = new_zonemap
+	#acquire_player_control()
 	# TODO: Hook up player controls here
 	# var join_data: Dictionary = {
 	# 	"zonemap_id": new_zonemap.name,
@@ -103,3 +105,4 @@ func acquire_player_control() -> void:
 	player_mobile = current_zonemap.get_node("DynamicEntities/Player_%s" % [player_id])
 	player_controls.set_controlled(player_mobile)
 	player_controls.player_cam_mount.reparent(current_zonemap)
+	Debugger.log("Acquiring player control", self)

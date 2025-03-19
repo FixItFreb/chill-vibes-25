@@ -4,6 +4,7 @@ class_name NetBridge
 const RESPONSE_DONE = 1
 const RESPONSE_ZONEMAP_LOADED = 2
 const RESPONSE_PLAYER_MOVED = 3
+const RESPONSE_PLAYER_INIT = 4
 
 # TODO: Might be a better way of doing this. Also might be worth being a dictionary?
 #signal response_from_server(response: int)
@@ -24,8 +25,12 @@ func send_server_response(response: int) -> void:
 @rpc("any_peer", "call_remote", "reliable")
 func request_init_player(spawn_data: Dictionary) -> void:
 	if multiplayer.is_server():
-		spawn_data.set("sender_id", multiplayer.get_remote_sender_id())
-		Server.instance.init_player(spawn_data)
+		var connecting_player_id: int = multiplayer.get_remote_sender_id()
+		if !Server.instance.connected_players.has(connecting_player_id):
+			spawn_data.set("sender_id", connecting_player_id)
+			Server.instance.init_player(spawn_data)
+		else:
+			Debugger.log("Player %s already initialised" % [connecting_player_id], self)
 
 # Sent to client
 @rpc("authority", "call_remote", "reliable")
@@ -41,7 +46,7 @@ func request_load_zonemap(zonemap_data: Dictionary) -> void:
 	if multiplayer.is_server():
 		var zonemap_id: StringName = zonemap_data.get("zonemap_id", "")
 		# Load the zone map
-		Server.instance.world_manager.load_zonemap(zonemap_id)
+		Server.instance.world_manager.load_zonemap_world(zonemap_id)
 		send_server_response.rpc_id(multiplayer.get_remote_sender_id(), RESPONSE_ZONEMAP_LOADED)
 	# Waits for server response on client
 	else:
@@ -59,15 +64,15 @@ func request_move_to_zonemap(zonemap_data: Dictionary) -> void:
 	if multiplayer.is_server():
 		var player_data: PlayerData = Server.instance.connected_players.get(multiplayer.get_remote_sender_id(), null)
 		var zonemap_id: StringName = zonemap_data.get("zonemap_id", "")
-		var zonemap: ZoneMap = Server.instance.world_manager.load_zonemap(zonemap_id)
-		var zonemap_entrance: StringName = zonemap_data.get("zonemap_entrance", "")
-		if Server.instance.world_manager.move_player_to_zonemap(player_data, zonemap, zonemap_entrance):
+		#var zonemap: ZoneMap = Server.instance.world_manager.load_zonemap(zonemap_id)
+		var zonemap_entrance: StringName = zonemap_data.get("zonemap_entry_id", &"Default")
+		if Server.instance.world_manager.move_player_to_zonemap(player_data, zonemap_id, zonemap_entrance):
 			send_server_response.rpc_id(player_data.player_id, RESPONSE_PLAYER_MOVED)
 	# Waits for server response on client
 	else:
 		server_response_player_moved.connect(
 			func():
-				Debugger.log("Player Moved", self)
-				Client.instance.acquire_player_control(),
+				Debugger.log("Player Moved", self),
+				#Client.instance.acquire_player_control(),
 			CONNECT_ONE_SHOT
 		)

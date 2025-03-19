@@ -3,8 +3,8 @@ class_name BaseMobile
 
 @onready var damageable: Damageable = $Damageable
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var owner_sync: MultiplayerSynchronizer = $OwnerSync
-@onready var remote_sync: MultiplayerSynchronizer = $RemoteSync
+# @onready var owner_sync: MultiplayerSynchronizer = $OwnerSync
+# @onready var server_sync: MultiplayerSynchronizer = $ServerSync
 
 @export var mobile_name: String = ""
 @export var mobile_config_id: StringName
@@ -18,12 +18,13 @@ func is_owner() -> bool:
 func _ready() -> void:
 	#Debugger.log("%s ready!" % [mobile_name], self)
 	init_mobile_config()
+	# TODO: I don't like this...
 	current_zonemap = get_node("../..")
 	if owner_id == multiplayer.get_unique_id():	
 		damageable.on_damaged.connect(on_damage_received)
 	#if multiplayer.is_server():
 	# 	owner_sync.update_visibility(0)
-	# 	remote_sync.update_visibility(0)
+	# 	server_sync.update_visibility(0)
 
 # TODO: This can be called when setting the mobile config var
 func init_mobile_config() -> void:

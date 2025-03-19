@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bcinvjdqynmqd"]
+[gd_scene load_steps=9 format=3 uid="uid://bcinvjdqynmqd"]
 
 [ext_resource type="Script" uid="uid://cg2r3ipoqkvmo" path="res://client/client.gd" id="1_q508y"]
 [ext_resource type="Script" uid="uid://cuxd4oiwdlo3b" path="res://server/scripts/system/world_manager_server.gd" id="2_kqxjk"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cpeqv82idw3mc" path="res://shared/scripts/system/net_bridge.gd" id="3_pj1pg"]
 [ext_resource type="PackedScene" uid="uid://b82mdtm7gb5iu" path="res://shared/scenes/system/zone_map_base.tscn" id="5_modkh"]
 [ext_resource type="Script" uid="uid://cf8clwi6ap1n8" path="res://server/scripts/system/entity_spawner.gd" id="6_c0rkc"]
+[ext_resource type="PackedScene" uid="uid://ct7lveb4mm4bd" path="res://server/scenes/system/zone_map_world.tscn" id="8_ntqyy"]
 
 [node name="ClientMain" type="Node"]
 script = ExtResource("1_q508y")
@@ -33,6 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_kqxjk")
 zonemap_scene = ExtResource("5_modkh")
+zonemapworld_scene = ExtResource("8_ntqyy")
 
 [node name="WorldSpawner" type="MultiplayerSpawner" parent="World"]
 spawn_path = NodePath("..")
