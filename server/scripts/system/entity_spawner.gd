@@ -26,9 +26,10 @@ func on_spawn(data: Variant) -> Node:
 			var player_node: PlayerMobile = to_spawn.instantiate()
 			player_node.mobile_config_id = spawn_data["mobile_config_id"]
 			player_node.owner_id = player_id
-			#player_node.set_multiplayer_authority(player_id, false)
-			#player_node.get_node("OwnerSync").set_multiplayer_authority(player_id, false)
-			#player_node.get_node("RemoteSync").set_multiplayer_authority(1, false)
+			#player_node.set_multiplayer_authority(player_id, true)
+			#player_node.owner_sync.set_multiplayer_authority(player_id, false)
+			#player_node.owner_sync.set_visibility_for(1, true)
+			#player_node.owner_sync.set_visibility_for(player_id, true)
 			player_node.name = "Player_%s" % [player_id]
 			player_node.mobile_name = spawn_data["player_name"]
 			player_node.position = spawn_data["player_pos"]

@@ -5,9 +5,6 @@ class_name PlayerMobileSynchronizer
 var player_mobile: PlayerMobile
 
 func setup(type: int) -> void:
-	#player_mobile = get_parent()
-
-	#if multiplayer.is_server():
 	if type == 0:
 		if owner_sync:
 			process_mode = Node.PROCESS_MODE_INHERIT
@@ -33,7 +30,6 @@ func setup(type: int) -> void:
 					Debugger.log("REMOTE_SYNC: %s visibility to %s: %s" % [player_mobile.owner_id, Client.instance.player_id, is_visible], self)
 					return is_visible
 			)
-	#elif player_mobile.is_owner():
 	elif type == 1:
 		if owner_sync:
 			process_mode = Node.PROCESS_MODE_INHERIT

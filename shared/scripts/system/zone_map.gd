@@ -7,6 +7,7 @@ class_name ZoneMap
 
 var world: ZoneMapWorld
 var players_in_zone: Array[int]
+var players_mobiles_in_zone: Array[PlayerMobile]
 @export var entry_points: Array[Node3D]
 
 var zonemap_id: StringName:
@@ -43,7 +44,9 @@ func get_entry_point(entry_point_id: StringName) -> Node3D:
 
 func add_player_to_zone(to_add: PlayerMobile) -> bool:
 	if !players_in_zone.has(to_add.owner_id):
+		#to_add.add_player_visibility(players_mobiles_in_zone)
 		players_in_zone.append(to_add.owner_id)
+		players_mobiles_in_zone.append(to_add)
 		on_player_join.emit(to_add)
 		Debugger.log("Player %s entered %s" % [to_add.mobile_name, world.name], self)
 		return true
@@ -51,7 +54,9 @@ func add_player_to_zone(to_add: PlayerMobile) -> bool:
 
 func remove_player_from_zone(to_remove: PlayerMobile) -> bool:
 	if players_in_zone.has(to_remove.owner_id):
+		#to_remove.add_player_visibility(players_mobiles_in_zone)
 		players_in_zone.erase(to_remove.owner_id)
+		players_mobiles_in_zone.erase(to_remove)
 		on_player_leave.emit(to_remove)
 		Debugger.log("Player %s left %s" % [to_remove.mobile_name, world.name], self)
 		return true

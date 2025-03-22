@@ -3,7 +3,11 @@ class_name BaseMobile
 
 @onready var damageable: Damageable = $Damageable
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-# @onready var owner_sync: MultiplayerSynchronizer = $OwnerSync
+var owner_sync: MultiplayerSynchronizer:
+	get:
+		if !owner_sync:
+			owner_sync = get_node("OwnerSync")
+		return owner_sync
 # @onready var server_sync: MultiplayerSynchronizer = $ServerSync
 
 @export var mobile_name: String = ""
