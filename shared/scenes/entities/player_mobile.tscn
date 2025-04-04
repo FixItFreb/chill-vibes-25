@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddttoe4mc8dbg"]
+[gd_scene load_steps=5 format=3 uid="uid://ddttoe4mc8dbg"]
 
 [ext_resource type="PackedScene" uid="uid://b60l726r7eket" path="res://shared/scenes/entities/base_mobile.tscn" id="1_rvaos"]
 [ext_resource type="Script" uid="uid://dccmqjnlmjtmu" path="res://shared/scripts/mobile/player_mobile.gd" id="2_5g5nk"]
-[ext_resource type="PackedScene" uid="uid://bnw71drrg1h73" path="res://shared/scenes/entities/mobile_sync.tscn" id="3_2bmdi"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2bmdi"]
 properties/0/path = NodePath(".:position")
@@ -20,12 +19,13 @@ properties/2/replication_mode = 2
 [node name="PlayerMobile" instance=ExtResource("1_rvaos")]
 collision_layer = 2
 script = ExtResource("2_5g5nk")
-mobile_sync_scene = ExtResource("3_2bmdi")
+sync_rate = 0.1
 mobile_name = "Player"
 mobile_config_id = &"cake_cat"
 
 [node name="OwnerSync" type="MultiplayerSynchronizer" parent="." index="0"]
 replication_config = SubResource("SceneReplicationConfig_2bmdi")
+visibility_update_mode = 2
 public_visibility = false
 
 [node name="AnimationPlayer" parent="." index="4"]

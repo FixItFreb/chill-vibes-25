@@ -1,13 +1,11 @@
 extends Node
 class_name ZoneMap
 
-@onready var entity_spawner: EntitySpawner = %EntitySpawner
 @onready var map_area: Area3D = $MapArea
-@onready var server_sync: MultiplayerSynchronizer = $ServerSync
+@onready var zonemap_spawner: NetEntitySpawner = $EntitySpawner
 
 var world: ZoneMapWorld
-var players_in_zone: Array[int]
-var players_mobiles_in_zone: Array[PlayerMobile]
+var players_in_zone: Dictionary[int,PlayerMobile]
 @export var entry_points: Array[Node3D]
 
 var zonemap_id: StringName:
@@ -40,23 +38,27 @@ func get_entry_point(entry_point_id: StringName) -> Node3D:
 	for entry_point: Node3D in entry_points:
 		if entry_point.name == entry_point_id:
 			return entry_point
-	return null
+	return entry_points[0]
 
 func add_player_to_zone(to_add: PlayerMobile) -> bool:
-	if !players_in_zone.has(to_add.owner_id):
-		#to_add.add_player_visibility(players_mobiles_in_zone)
-		players_in_zone.append(to_add.owner_id)
-		players_mobiles_in_zone.append(to_add)
+	if not players_in_zone.has(to_add.owner_id):
+		players_in_zone.set(to_add.owner_id, to_add)
 		on_player_join.emit(to_add)
 		Debugger.log("Player %s entered %s" % [to_add.mobile_name, world.name], self)
+
+		# TODO: Shift this on to the NetEntity node...
+		# If this is the server, sync all existing players
+		if multiplayer.is_server():
+			for player: PlayerMobile in players_in_zone.values():
+				if player.owner_id != to_add.owner_id:
+					zonemap_spawner.spawn_entity_on_client.rpc_id(to_add.owner_id, var_to_bytes(player.get_current_data()))
+
 		return true
 	return false
 
 func remove_player_from_zone(to_remove: PlayerMobile) -> bool:
 	if players_in_zone.has(to_remove.owner_id):
-		#to_remove.add_player_visibility(players_mobiles_in_zone)
 		players_in_zone.erase(to_remove.owner_id)
-		players_mobiles_in_zone.erase(to_remove)
 		on_player_leave.emit(to_remove)
 		Debugger.log("Player %s left %s" % [to_remove.mobile_name, world.name], self)
 		return true

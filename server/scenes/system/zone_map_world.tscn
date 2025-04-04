@@ -1,14 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ct7lveb4mm4bd"]
+[gd_scene load_steps=3 format=3 uid="uid://ct7lveb4mm4bd"]
 
 [ext_resource type="Script" uid="uid://efvqdpqmi2cc" path="res://shared/scripts/system/zonemap_world.gd" id="1_mjgjr"]
-[ext_resource type="Script" uid="uid://cf8clwi6ap1n8" path="res://server/scripts/system/entity_spawner.gd" id="2_esvhe"]
 
 [sub_resource type="World3D" id="World3D_esvhe"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mjgjr"]
-properties/0/path = NodePath(".:zonemap_id")
-properties/0/spawn = true
-properties/0/replication_mode = 2
 
 [node name="ZoneMapWorld" type="SubViewport"]
 own_world_3d = true
@@ -16,13 +10,3 @@ world_3d = SubResource("World3D_esvhe")
 audio_listener_enable_3d = true
 script = ExtResource("1_mjgjr")
 metadata/_custom_type_script = "uid://efvqdpqmi2cc"
-
-[node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_mjgjr")
-public_visibility = false
-
-[node name="ZoneMapSpawner" type="MultiplayerSpawner" parent="."]
-unique_name_in_owner = true
-spawn_path = NodePath("..")
-script = ExtResource("2_esvhe")
-metadata/_custom_type_script = "uid://cf8clwi6ap1n8"

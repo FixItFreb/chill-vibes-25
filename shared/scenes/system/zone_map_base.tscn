@@ -1,12 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b82mdtm7gb5iu"]
+[gd_scene load_steps=4 format=3 uid="uid://b82mdtm7gb5iu"]
 
 [ext_resource type="Script" uid="uid://ciq7wgyhld3mm" path="res://shared/scripts/system/zone_map.gd" id="1_by6oa"]
-[ext_resource type="Script" uid="uid://cf8clwi6ap1n8" path="res://server/scripts/system/entity_spawner.gd" id="2_36rj6"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_36rj6"]
-properties/0/path = NodePath("Map/EntryPoints/Default:position")
-properties/0/spawn = true
-properties/0/replication_mode = 2
+[ext_resource type="Script" uid="uid://bxktubdpvbh6y" path="res://shared/scripts/system/net_entity_spawner.gd" id="2_36rj6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_36rj6"]
 size = Vector3(1000, 100, 1000)
@@ -14,14 +9,10 @@ size = Vector3(1000, 100, 1000)
 [node name="ZoneMapBase" type="Node"]
 script = ExtResource("1_by6oa")
 
-[node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_36rj6")
-public_visibility = false
-
-[node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
-unique_name_in_owner = true
-spawn_path = NodePath("../DynamicEntities")
+[node name="EntitySpawner" type="Node" parent="."]
 script = ExtResource("2_36rj6")
+spawn_path = NodePath("../DynamicEntities")
+metadata/_custom_type_script = "uid://bxktubdpvbh6y"
 
 [node name="MapArea" type="Area3D" parent="."]
 input_ray_pickable = false

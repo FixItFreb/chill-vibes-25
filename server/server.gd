@@ -5,12 +5,12 @@ extends Node
 
 var data_node: Node
 var world_manager: WorldManager
-var net_bridge: NetBridge
 # TODO: Might want some sort of player data object here instead of the PlayerMobile?
 var connected_players: Dictionary[int,PlayerData]
 var server_started: bool = false
 
 static var instance: Server
+static var net_bridge: NetBridge
 
 signal on_server_started()
 
@@ -60,21 +60,41 @@ func host(port: int) -> void:
 	)
 
 # Add player data to the server
-func init_player(player_spawn_data: Dictionary) -> void:
+func init_player(player_spawn_data: Dictionary[StringName,Variant]) -> void:
 	var player_data: PlayerData = PlayerData.new()
-	player_data.player_id = player_spawn_data.get("player_id", -1)
-	player_data.player_name = player_spawn_data.get("player_name", "UNKNOWN")
+	player_data.player_id = player_spawn_data.get(&"player_id", -1)
+	player_data.player_name = player_spawn_data.get(&"player_name", "UNKNOWN")
 	player_data.name = str(player_data.player_id)
 	connected_players.set(player_data.player_id, player_data)
 	data_node.add_child(player_data)
-	var init_data: Dictionary = {}
-	net_bridge.init_player_done.rpc_id(player_data.player_id, init_data)
+	# Load player save here...
+	# Hardcode for now
+	var init_data: Dictionary[StringName,Variant] = {
+		&"current_zonemap": &"test_map_01"
+	}
+	# Send response back to calling client
+	net_bridge.init_player_done.rpc_id(player_data.player_id, var_to_bytes(init_data))
+	# Load ZoneMap for player on the server
+	var zonemap_world: ZoneMapWorld = world_manager.load_zonemap_world(init_data[&"current_zonemap"])
+
+	var zonemap_data: Dictionary[StringName,Variant] = {
+		&"zonemap_id": zonemap_world.zonemap_id
+	}
+	# Now tell the client to load the ZoneMap
+	net_bridge.load_zonemap_on_client.rpc_id(player_data.player_id, var_to_bytes(zonemap_data))
+
+	#Server instantiates the player mobiles
+	world_manager.move_player_to_zonemap(player_data, zonemap_world.zonemap_id, &"Default")
+	#print("world ready: %s" % [zonemap.is_node_ready()])
 
 # Remove the player data node from the server
 func remove_player(player_id: int) -> void:
 	var player_data_node: PlayerData = data_node.get_node(str(player_id)) as PlayerData
 	if player_data_node:
 		player_data_node.queue_free()
+
+static func has_player_data(player_id: int) -> bool:
+	return instance.connected_players.has(player_id)
 
 # func move_player_to_zonemap(player_data: PlayerData, zonemap: ZoneMap, _zonemap_entrance: StringName) -> bool:
 # 	if player_data:

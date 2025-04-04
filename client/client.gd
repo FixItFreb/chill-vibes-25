@@ -10,10 +10,10 @@ signal zonemap_changed(new_zonemap: ZoneMap)
 
 static var instance: Client
 static var player_id: int
+static var net_bridge: NetBridge
 
 var data_node: Node
 var world_manager: WorldManager
-var net_bridge: NetBridge
 var player_controls: PlayerInputHandler
 var player_mobile: PlayerMobile
 
@@ -74,21 +74,22 @@ func join(address: String, port: int) -> void:
 
 func request_spawn_player() -> void:
 	# TODO: Make some player save resources for this
-	var test_data: Dictionary = {
-		"player_id": player_id,
-		"player_name": player_name
+	var test_data: Dictionary[StringName,Variant] = {
+		&"player_id": player_id,
+		&"player_name": player_name
 	}
-	net_bridge.request_init_player.rpc(test_data)
+	#net_bridge.request_init_player.rpc(test_data)
+	net_bridge.request_init_player.rpc(var_to_bytes(test_data))
 
 # Player data has now been initialised on the server
 # TODO: Move camera out to a safe place before we zone
 func init_player_done(_init_data: Dictionary) -> void:
 	player_data_ready = true
 	# TODO: This should be loaded from the player save...
-	var zonemap_data: Dictionary = {
-		"zonemap_id": player_map
-	}
-	net_bridge.request_load_zonemap.rpc(zonemap_data)
+	# var zonemap_data: Dictionary = {
+	# 	"zonemap_id": player_map
+	# }
+	# net_bridge.request_load_zonemap.rpc(zonemap_data)
 
 # Fires when a new ZoneMap runs its ready function
 func join_new_zonemap(new_zonemap: ZoneMap) -> void:

@@ -26,14 +26,17 @@ func on_spawn(data: Variant) -> Node:
 			var player_node: PlayerMobile = to_spawn.instantiate()
 			player_node.mobile_config_id = spawn_data["mobile_config_id"]
 			player_node.owner_id = player_id
-			#player_node.set_multiplayer_authority(player_id, true)
+			player_node.set_multiplayer_authority(player_id, true)
 			#player_node.owner_sync.set_multiplayer_authority(player_id, false)
-			#player_node.owner_sync.set_visibility_for(1, true)
-			#player_node.owner_sync.set_visibility_for(player_id, true)
+			player_node.owner_sync.set_visibility_for(1, true)
+			player_node.owner_sync.set_visibility_for(player_id, true)
+			if !multiplayer.is_server() && multiplayer.get_unique_id() != player_id:
+				player_node.owner_sync.set_visibility_for(multiplayer.get_unique_id(), true)
 			player_node.name = "Player_%s" % [player_id]
 			player_node.mobile_name = spawn_data["player_name"]
 			player_node.position = spawn_data["player_pos"]
 			player_node.rotation = spawn_data["player_rot"]
+			Debugger.log("Spawning player: %s" % [player_node.mobile_name], self)
 			# TODO: Load player saved data here?
 			return player_node
 		"base_mobile":
@@ -49,6 +52,7 @@ func on_spawn(data: Variant) -> Node:
 			world_node.name = zonemap_id
 			#Debugger.log("Honk!", self)
 			#world_node.spawn_zonemap()
+			Debugger.log("Spawning World: %s" % [zonemap_id], self)
 			return world_node
 		"zonemap":
 			var zonemap_id: StringName = spawn_data["zonemap_id"]
@@ -57,5 +61,6 @@ func on_spawn(data: Variant) -> Node:
 			zonemap_node.name = "ZoneMap"
 			zonemap_node.world = get_node(spawn_path)
 			#Debugger.log("Meep!", self)
+			Debugger.log("Spawning ZoneMap: %s" % [zonemap_id], self)
 			return zonemap_node
 	return spawned_node

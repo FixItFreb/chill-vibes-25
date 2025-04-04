@@ -30,20 +30,20 @@ static func get_resource(res_type: StringName, res_name: String) -> Resource:
 		printerr("Could not load resource %s:%s" % [res_type, res_name])
 	return new_res
 
-static func get_map_scene(map_name: String) -> PackedScene:
+static func get_map_scene(map_name: StringName) -> PackedScene:
 	return ResourceLoader.load(resource_path(&"Maps", map_name))
 
-static func get_entity_scene(entity_name: String) -> PackedScene:
+static func get_entity_scene(entity_name: StringName) -> PackedScene:
 	return ResourceLoader.load(resource_path(&"Entities", entity_name))
 
-static func get_mobile_config(config_name: String) -> MobileConfig:
+static func get_mobile_config(config_name: StringName) -> MobileConfig:
 	return ResourceLoader.load(resource_path(&"Mobiles", config_name))
 
-static func get_mesh_resource(mesh_name: String) -> PackedScene:
+static func get_mesh_resource(mesh_name: StringName) -> PackedScene:
 	return ResourceLoader.load(resource_path(&"Meshes", mesh_name))
 
-static func get_collision_profile(profile_name: String) -> CollisionProfile:
+static func get_collision_profile(profile_name: StringName) -> CollisionProfile:
 	return ResourceLoader.load(resource_path(&"Collisions", profile_name))
 
-static func get_anims_library(anims_name: String) -> AnimationLibrary:
+static func get_anims_library(anims_name: StringName) -> AnimationLibrary:
 	return ResourceLoader.load(resource_path(&"Anims", anims_name))
