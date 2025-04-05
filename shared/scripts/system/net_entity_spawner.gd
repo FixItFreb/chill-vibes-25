@@ -34,7 +34,7 @@ func spawn_player(spawn_data: Dictionary[StringName,Variant]) -> PlayerMobile:
 	player_node.owner_id = player_id
 	player_node.set_multiplayer_authority(player_id, true)
 	player_node.name = "Player_%s" % [player_id]
-	player_node.mobile_name = spawn_data[&"player_name"]
-	player_node.position = spawn_data[&"player_pos"]
-	player_node.rotation = spawn_data[&"player_rot"]
+	player_node.mobile_name = spawn_data[&"name"]
+	player_node.position = spawn_data[&"position"]
+	player_node.rotation = spawn_data[&"rotation"]
 	return player_node

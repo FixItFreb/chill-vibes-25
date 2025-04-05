@@ -3,12 +3,14 @@ class_name BaseMobile
 
 @onready var damageable: Damageable = $Damageable
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var net_entity: NetEntity = $NetEntity
 
 @export var mobile_name: String = ""
 @export var mobile_config_id: StringName
+# TODO: This should probably just be an accessor for get_multiplayer_authority()
 @export var owner_id: int
 
-var current_zonemap: ZoneMap
+#var current_zonemap: ZoneMap
 
 func is_owner() -> bool:
 	return multiplayer.get_unique_id() == owner_id
@@ -17,7 +19,7 @@ func _ready() -> void:
 	#Debugger.log("%s ready!" % [mobile_name], self)
 	init_mobile_config()
 	# TODO: I don't like this...
-	current_zonemap = get_node("../..")
+	net_entity.current_zonemap = get_node("../..")
 	if owner_id == multiplayer.get_unique_id():	
 		damageable.on_damaged.connect(on_damage_received)
 

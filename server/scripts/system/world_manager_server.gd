@@ -60,9 +60,9 @@ func move_player_to_zonemap(player_data: PlayerData, zonemap_id: StringName, zon
 				&"entity_type": NetEntity.EntityType.PLAYER_MOBILE,
 				&"mobile_config_id": &"cake_cat",
 				&"player_id": player_data.player_id,
-				&"player_name": player_data.player_name,
-				&"player_pos": spawn_point.global_position,
-				&"player_rot": spawn_point.global_rotation
+				&"name": player_data.player_name,
+				&"position": spawn_point.global_position,
+				&"rotation": spawn_point.global_rotation
 			}
 			var player_mobile: PlayerMobile = zonemap.zonemap_spawner.spawn_entity(player_spawn_data)
 

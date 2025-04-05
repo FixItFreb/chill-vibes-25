@@ -10,6 +10,8 @@ enum NetResponse {
 
 enum DataType {
 	PLAYER_SYNC_POS,
+	PLAYER_ANIM_SYNC,
+	PLAYER_FULL_SYNC,
 }
 
 const RESPONSE_DONE = 1
@@ -35,7 +37,6 @@ func send_server_response(response: int) -> void:
 # Sent from client to server
 @rpc("any_peer", "call_remote", "reliable")
 func request_init_player(bytes: PackedByteArray) -> void:
-#func request_init_player(spawn_data: Dictionary[StringName,Variant]) -> void:
 	if multiplayer.is_server():
 		var connecting_player_id: int = multiplayer.get_remote_sender_id()
 		if not Server.has_player_data(connecting_player_id):
@@ -65,7 +66,7 @@ func load_zonemap_on_client(bytes: PackedByteArray) -> void:
 func request_load_zonemap(zonemap_data: Dictionary) -> void:
 	# Call to server
 	if multiplayer.is_server():
-		var zonemap_id: StringName = zonemap_data.get("zonemap_id", "")
+		var zonemap_id: StringName = zonemap_data.get(&"zonemap_id", "")
 		# Load the zone map
 		Server.instance.world_manager.load_zonemap_world(zonemap_id)
 		send_server_response.rpc_id(multiplayer.get_remote_sender_id(), RESPONSE_ZONEMAP_LOADED)
@@ -84,9 +85,8 @@ func request_move_to_zonemap(zonemap_data: Dictionary) -> void:
 	# Call to server
 	if multiplayer.is_server():
 		var player_data: PlayerData = Server.instance.connected_players.get(multiplayer.get_remote_sender_id(), null)
-		var zonemap_id: StringName = zonemap_data.get("zonemap_id", "")
-		#var zonemap: ZoneMap = Server.instance.world_manager.load_zonemap(zonemap_id)
-		var zonemap_entrance: StringName = zonemap_data.get("zonemap_entry_id", &"Default")
+		var zonemap_id: StringName = zonemap_data.get(&"zonemap_id", "")
+		var zonemap_entrance: StringName = zonemap_data.get(&"zonemap_entry_id", &"Default")
 		if Server.instance.world_manager.move_player_to_zonemap(player_data, zonemap_id, zonemap_entrance):
 			send_server_response.rpc_id(player_data.player_id, RESPONSE_PLAYER_MOVED)
 	# Waits for server response on client
@@ -94,27 +94,40 @@ func request_move_to_zonemap(zonemap_data: Dictionary) -> void:
 		server_response_player_moved.connect(
 			func():
 				Debugger.log("Player Moved", self),
-				#Client.instance.acquire_player_control(),
 			CONNECT_ONE_SHOT
 		)
 
+# Sent from client, runs on server
 @rpc("any_peer", "call_remote", "unreliable")
 func send_client_to_server_unreliable(data_type: int, bytes: PackedByteArray) -> void:
 	if multiplayer.is_server():
 		var data: Dictionary[StringName,Variant] = bytes_to_var(bytes)
 		match data_type:
 			DataType.PLAYER_SYNC_POS:
-				var player_node: PlayerMobile = Server.instance.get_node(data.get("player_path"))
+				var player_node: PlayerMobile = Server.instance.get_node(data.get(&"node_path"))
 				player_node.update_position(data)
 				# Send to players in same zone map
-				send_server_to_client_unreliable.rpc(data_type, bytes)
+				player_node.net_entity.current_zonemap.add_pending_player_sync_update(multiplayer.get_remote_sender_id(), data_type, data)
+			DataType.PLAYER_ANIM_SYNC:
+				var player_node: PlayerMobile = Server.instance.get_node(data.get(&"node_path"))
+				player_node.current_anim_id = data.get(&"current_anim")
+				# Send to players in same zone map
+				player_node.net_entity.current_zonemap.add_pending_player_sync_update(multiplayer.get_remote_sender_id(), data_type, data)
+				
 
+# Sent from server, runs on client
 @rpc("authority", "call_remote", "reliable")
 func send_server_to_client_unreliable(data_type: int, bytes: PackedByteArray) -> void:
 	if !multiplayer.is_server():
 		var data: Dictionary[StringName,Variant] = bytes_to_var(bytes)
 		match data_type:
 			DataType.PLAYER_SYNC_POS:
-				var player_node: PlayerMobile = Client.instance.get_node(data.get("player_path"))
-				if player_node:
-					player_node.update_position(data)
+				var player_node: PlayerMobile = Client.instance.get_node(data.get(&"node_path"))
+				player_node.update_position(data)
+			DataType.PLAYER_ANIM_SYNC:
+				var player_node: PlayerMobile = Client.instance.get_node(data.get(&"node_path"))
+				player_node.update_anim(data)
+			DataType.PLAYER_FULL_SYNC:
+				var player_node: PlayerMobile = Client.instance.get_node(data.get(&"node_path"))
+				player_node.update_position(data)
+				player_node.update_anim(data)

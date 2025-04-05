@@ -33,9 +33,9 @@ func on_spawn(data: Variant) -> Node:
 			if !multiplayer.is_server() && multiplayer.get_unique_id() != player_id:
 				player_node.owner_sync.set_visibility_for(multiplayer.get_unique_id(), true)
 			player_node.name = "Player_%s" % [player_id]
-			player_node.mobile_name = spawn_data["player_name"]
-			player_node.position = spawn_data["player_pos"]
-			player_node.rotation = spawn_data["player_rot"]
+			player_node.mobile_name = spawn_data[&"name"]
+			player_node.position = spawn_data[&"position"]
+			player_node.rotation = spawn_data[&"rotation"]
 			Debugger.log("Spawning player: %s" % [player_node.mobile_name], self)
 			# TODO: Load player saved data here?
 			return player_node

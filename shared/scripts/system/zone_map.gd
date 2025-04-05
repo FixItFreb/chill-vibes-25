@@ -8,10 +8,11 @@ var world: ZoneMapWorld
 var players_in_zone: Dictionary[int,PlayerMobile]
 @export var entry_points: Array[Node3D]
 
+var pending_player_sync_updates: Dictionary[int,Dictionary]
+
 var zonemap_id: StringName:
 	get:
 		return world.name
-
 
 signal on_player_join(player: PlayerMobile)
 signal on_player_leave(player: PlayerMobile)
@@ -22,12 +23,17 @@ func _ready() -> void:
 	if !multiplayer.is_server():
 		Client.instance.zonemap_changed.emit(self)
 
+	if multiplayer.is_server():
+		Server.instance.on_server_tick.connect(process_pending_player_sync_updates)
+
 	$DynamicEntities.child_entered_tree.connect(on_spawned_entity_added)
 	$DynamicEntities.child_exiting_tree.connect(on_spawned_entity_removed)
 
 	# Store all static entry points
 	for entry_point: Node in $Map/EntryPoints.get_children():
 		entry_points.append(entry_point)
+
+	# TODO: If server, connect to on_server_tick to handle any incoming updates
 
 func _exit_tree() -> void:
 	# If we are a client, then the player camera is a child of this node so let's move it back out
@@ -69,9 +75,46 @@ func on_spawned_entity_added(new_entity: Node) -> void:
 	if new_entity is PlayerMobile:
 		var new_player: PlayerMobile = new_entity as PlayerMobile
 		add_player_to_zone(new_player)
+		push_current_player_data(new_player.owner_id)
 
 func on_spawned_entity_removed(removed_entity: Node) -> void:
 	# Is this entity a player?
 	if removed_entity is PlayerMobile:
 		var removed_player: PlayerMobile = removed_entity as PlayerMobile
 		remove_player_from_zone(removed_player)
+
+func push_current_player_data(new_player_id: int) -> void:
+	if multiplayer.is_server():
+		# Iterate across all players in this zone
+		for existing_player_id: int in players_in_zone:
+			if existing_player_id != new_player_id:
+				var player_node: PlayerMobile = players_in_zone.get(existing_player_id)
+				Server.net_bridge.send_server_to_client_unreliable.rpc_id(new_player_id, NetBridge.DataType.PLAYER_FULL_SYNC, var_to_bytes(player_node.get_current_data()))
+
+func add_pending_player_sync_update(player_id: int, sync_type: int, update_data: Dictionary[StringName,Variant]) -> void:
+	#pending_player_sync_updates.set(player_id, update_data)
+	if not pending_player_sync_updates.has(player_id):
+		var new_sync_data_entry: Dictionary[int,Dictionary] = {
+			sync_type: update_data
+		}
+		pending_player_sync_updates.set(player_id, new_sync_data_entry)
+	else:
+		var sync_data_entry: Dictionary[int,Dictionary] = pending_player_sync_updates.get(player_id)
+		sync_data_entry.set(sync_type, update_data)
+
+# Iterate across all our pending updates and send those updates to other players in the zone
+func process_pending_player_sync_updates() -> void:
+	if multiplayer.is_server():
+		# Iterate across all our pending updates
+		for sending_player_id: int in pending_player_sync_updates.keys():
+			# Iterate across all players in this zone
+			for receiving_player_id: int in players_in_zone:
+				# Only process updates this player is not the owner of the update data
+				if receiving_player_id != sending_player_id:
+					var sync_data: Dictionary[int,Dictionary] = pending_player_sync_updates.get(sending_player_id)
+					for sync_entry_type: int in sync_data.keys():
+						Server.net_bridge.send_server_to_client_unreliable.rpc_id(receiving_player_id, sync_entry_type, var_to_bytes(sync_data.get(sync_entry_type)))
+		pending_player_sync_updates.clear()
+
+
+	

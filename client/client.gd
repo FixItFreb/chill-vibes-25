@@ -76,7 +76,7 @@ func request_spawn_player() -> void:
 	# TODO: Make some player save resources for this
 	var test_data: Dictionary[StringName,Variant] = {
 		&"player_id": player_id,
-		&"player_name": player_name
+		&"name": player_name
 	}
 	#net_bridge.request_init_player.rpc(test_data)
 	net_bridge.request_init_player.rpc(var_to_bytes(test_data))

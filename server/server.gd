@@ -8,11 +8,21 @@ var world_manager: WorldManager
 # TODO: Might want some sort of player data object here instead of the PlayerMobile?
 var connected_players: Dictionary[int,PlayerData]
 var server_started: bool = false
+var tick_rate: float = 0.05
+var tick_counter: float = 0
 
 static var instance: Server
 static var net_bridge: NetBridge
 
 signal on_server_started()
+signal on_server_tick()
+
+func _process(delta: float) -> void:
+	if server_started:
+		tick_counter += delta
+		if tick_counter >= tick_rate:
+			on_server_tick.emit()
+			tick_counter = 0
 
 func _enter_tree() -> void:
 	# This sets the Server node to be the root for all multiplayer calls made to the servers multiplayer interface
@@ -63,7 +73,7 @@ func host(port: int) -> void:
 func init_player(player_spawn_data: Dictionary[StringName,Variant]) -> void:
 	var player_data: PlayerData = PlayerData.new()
 	player_data.player_id = player_spawn_data.get(&"player_id", -1)
-	player_data.player_name = player_spawn_data.get(&"player_name", "UNKNOWN")
+	player_data.player_name = player_spawn_data.get(&"name", "UNKNOWN")
 	player_data.name = str(player_data.player_id)
 	connected_players.set(player_data.player_id, player_data)
 	data_node.add_child(player_data)
@@ -95,14 +105,3 @@ func remove_player(player_id: int) -> void:
 
 static func has_player_data(player_id: int) -> bool:
 	return instance.connected_players.has(player_id)
-
-# func move_player_to_zonemap(player_data: PlayerData, zonemap: ZoneMap, _zonemap_entrance: StringName) -> bool:
-# 	if player_data:
-# 		# Is this a new zone or just an in zone teleport?
-# 		var new_zone: bool = player_data.current_zonemap_id != zonemap.name
-# 		# If it is a new zone update our current zone data
-# 		if new_zone:
-# 			player_data.current_zonemap_id = zonemap.name
-# 			player_data.player_mobile = zonemap.entity_spawner.spawn_player()
-# 			# TODO: Move player mobile to the specified entrance point
-# 	return false

@@ -58,12 +58,3 @@ func _physics_process(delta: float) -> void:
 				mobile_body.anim_player.play(&"walk")
 		elif mobile_body.anim_player.current_animation != "idle":
 			mobile_body.anim_player.play(&"idle")
-	# else:
-	# 	# TODO: This should probably be done via anim graphs?
-	# 	if mobile_body.velocity.length() > 0 && mobile_body.is_on_floor():
-	# 		if sprinting && mobile_body.anim_player.current_animation != "run":
-	# 			mobile_body.anim_player.play(&"run")
-	# 		elif !sprinting && mobile_body.anim_player.current_animation != "walk":
-	# 			mobile_body.anim_player.play(&"walk")
-	# 	elif mobile_body.anim_player.current_animation != "idle":
-	# 		mobile_body.anim_player.play(&"idle")

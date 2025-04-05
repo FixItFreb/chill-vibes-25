@@ -7,3 +7,4 @@ enum EntityType {
 	MAP
 }
 
+var current_zonemap: ZoneMap
