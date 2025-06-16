@@ -3,6 +3,7 @@ class_name ZoneMap
 
 @onready var map_area: Area3D = $MapArea
 @onready var zonemap_spawner: NetEntitySpawner = $EntitySpawner
+@onready var entities_root: Node = $DynamicEntities
 
 var world: ZoneMapWorld
 var players_in_zone: Dictionary[int,PlayerMobile]
@@ -26,8 +27,8 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		Server.instance.on_server_tick.connect(process_pending_player_sync_updates)
 
-	$DynamicEntities.child_entered_tree.connect(on_spawned_entity_added)
-	$DynamicEntities.child_exiting_tree.connect(on_spawned_entity_removed)
+	entities_root.child_entered_tree.connect(on_spawned_entity_added)
+	entities_root.child_exiting_tree.connect(on_spawned_entity_removed)
 
 	# Store all static entry points
 	for entry_point: Node in $Map/EntryPoints.get_children():
@@ -56,9 +57,9 @@ func add_player_to_zone(to_add: PlayerMobile) -> bool:
 		# If this is the server, sync all existing players
 		if multiplayer.is_server():
 			for player: PlayerMobile in players_in_zone.values():
+				#Debugger.log("Syncing for: %s" % player.mobile_name, self)
 				if player.owner_id != to_add.owner_id:
 					zonemap_spawner.spawn_entity_on_client.rpc_id(to_add.owner_id, var_to_bytes(player.get_current_data()))
-
 		return true
 	return false
 
@@ -67,6 +68,12 @@ func remove_player_from_zone(to_remove: PlayerMobile) -> bool:
 		players_in_zone.erase(to_remove.owner_id)
 		on_player_leave.emit(to_remove)
 		Debugger.log("Player %s left %s" % [to_remove.mobile_name, world.name], self)
+		if multiplayer.is_server():
+			var despawn_data: Dictionary[StringName,Variant] = {
+				&"rep_type": NetBridge.RepType.RELIABLE,
+				&"node_path": Server.instance.get_path_to(to_remove)
+			}
+			add_pending_player_sync_update(to_remove.owner_id, NetBridge.PacketType.DESPAWN_PLAYER, despawn_data)
 		return true
 	return false
 
@@ -89,10 +96,10 @@ func push_current_player_data(new_player_id: int) -> void:
 		for existing_player_id: int in players_in_zone:
 			if existing_player_id != new_player_id:
 				var player_node: PlayerMobile = players_in_zone.get(existing_player_id)
-				Server.net_bridge.send_server_to_client_unreliable.rpc_id(new_player_id, NetBridge.DataType.PLAYER_FULL_SYNC, var_to_bytes(player_node.get_current_data()))
+				Server.net_bridge.send_server_to_client_unreliable.rpc_id(new_player_id, NetBridge.PacketType.PLAYER_FULL_SYNC, var_to_bytes(player_node.get_current_data()))
 
+# Adds a sync update to be handled with our next server tick
 func add_pending_player_sync_update(player_id: int, sync_type: int, update_data: Dictionary[StringName,Variant]) -> void:
-	#pending_player_sync_updates.set(player_id, update_data)
 	if not pending_player_sync_updates.has(player_id):
 		var new_sync_data_entry: Dictionary[int,Dictionary] = {
 			sync_type: update_data
@@ -111,9 +118,14 @@ func process_pending_player_sync_updates() -> void:
 			for receiving_player_id: int in players_in_zone:
 				# Only process updates this player is not the owner of the update data
 				if receiving_player_id != sending_player_id:
+					# sync_data dictionary is [sync_type,sync_data[key,value]]
 					var sync_data: Dictionary[int,Dictionary] = pending_player_sync_updates.get(sending_player_id)
 					for sync_entry_type: int in sync_data.keys():
-						Server.net_bridge.send_server_to_client_unreliable.rpc_id(receiving_player_id, sync_entry_type, var_to_bytes(sync_data.get(sync_entry_type)))
+						var rep_type: int = sync_data[sync_entry_type].get(&"rep_type", NetBridge.RepType.UNRELIABLE)
+						if rep_type == NetBridge.RepType.UNRELIABLE:
+							Server.net_bridge.send_server_to_client_unreliable.rpc_id(receiving_player_id, sync_entry_type, var_to_bytes(sync_data.get(sync_entry_type)))
+						else:
+							Server.net_bridge.send_server_to_client_reliable.rpc_id(receiving_player_id, sync_entry_type, var_to_bytes(sync_data.get(sync_entry_type)))
 		pending_player_sync_updates.clear()
 
 

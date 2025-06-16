@@ -21,6 +21,7 @@ func spawn_entity(spawn_data: Dictionary) -> Variant:
 
 @rpc("any_peer", "call_remote", "reliable")
 func spawn_entity_on_client(bytes: PackedByteArray) -> void:
+	Debugger.log("Spawning...", self)
 	if not multiplayer.is_server():
 		var spawn_data: Dictionary[StringName,Variant] = bytes_to_var(bytes)
 		spawn_entity(spawn_data)

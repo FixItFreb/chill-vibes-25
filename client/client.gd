@@ -103,7 +103,15 @@ func join_new_zonemap(new_zonemap: ZoneMap) -> void:
 	# net_bridge.request_move_to_zonemap.rpc(join_data)
 
 func acquire_player_control() -> void:
-	player_mobile = current_zonemap.get_node("DynamicEntities/Player_%s" % [player_id])
+	if player_mobile == null:
+		player_mobile = current_zonemap.get_node("DynamicEntities/Player_%s" % [player_id])
 	player_controls.set_controlled(player_mobile)
 	player_controls.player_cam_mount.reparent(current_zonemap)
 	Debugger.log("Acquiring player control", self)
+
+func move_to_limbo() -> NodePath:
+	player_mobile.reparent(world_manager.limbo_world)
+	return Client.instance.get_path_to(player_mobile)
+
+func move_from_limbo(new_world: ZoneMap) -> void:
+	player_mobile.reparent(new_world.entities_root)

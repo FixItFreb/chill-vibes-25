@@ -90,10 +90,12 @@ func init_player(player_spawn_data: Dictionary[StringName,Variant]) -> void:
 	var zonemap_data: Dictionary[StringName,Variant] = {
 		&"zonemap_id": zonemap_world.zonemap_id
 	}
+
 	# Now tell the client to load the ZoneMap
 	net_bridge.load_zonemap_on_client.rpc_id(player_data.player_id, var_to_bytes(zonemap_data))
 
-	#Server instantiates the player mobiles
+	#Server moves player to zonemap
+	#If successful then client loads zonemap after
 	world_manager.move_player_to_zonemap(player_data, zonemap_world.zonemap_id, &"Default")
 	#print("world ready: %s" % [zonemap.is_node_ready()])
 

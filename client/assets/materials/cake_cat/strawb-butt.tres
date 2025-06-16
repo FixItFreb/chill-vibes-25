@@ -3,5 +3,5 @@
 [resource]
 resource_name = "strawb-butt"
 cull_mode = 2
-albedo_color = Color(0.0644329, 0.345967, 0.112648, 1)
+albedo_color = Color(0.0627451, 0.345098, 0.113725, 1)
 roughness = 0.5

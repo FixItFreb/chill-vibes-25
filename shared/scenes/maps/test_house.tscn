@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmowpqvhcbech"]
+[gd_scene load_steps=10 format=3 uid="uid://cmowpqvhcbech"]
 
 [ext_resource type="PackedScene" uid="uid://b82mdtm7gb5iu" path="res://shared/scenes/system/zone_map_base.tscn" id="1_t22al"]
 [ext_resource type="ArrayMesh" uid="uid://bv0o0a321qg8r" path="res://client/assets/meshes/bread/bread_slice.res" id="2_5kmpa"]
+[ext_resource type="PackedScene" uid="uid://b02ja7wj5aot5" path="res://shared/scenes/system/zone_map_warp.tscn" id="3_n5ll4"]
+[ext_resource type="PackedScene" uid="uid://352nha77gtvw" path="res://client/assets/meshes/foot.glb" id="4_42uu3"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_twlua"]
 size = Vector2(100, 100)
@@ -12,6 +14,9 @@ size = Vector3(100, 1, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jdo6i"]
 size = Vector3(1, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l3ahh"]
+size = Vector3(2, 2, 2)
 
 [sub_resource type="Environment" id="Environment_twlua"]
 background_mode = 1
@@ -33,7 +38,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_0hcil")
 
 [node name="Roof_07" type="Node3D" parent="Map/World" index="1"]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -37, -8.5, 0)
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -37, -8.0209, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/World/Roof_07" index="0"]
 transform = Transform3D(5, 2.81831e-14, 0, 2.81831e-14, 5, 1.42109e-14, 0, 0, 5, 3.72919, -0.0850005, -1.31134e-07)
@@ -47,6 +52,18 @@ transform = Transform3D(1, -4.23516e-22, -1.50463e-36, -4.23516e-22, 1, 0, 0, 0,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.085, 0)
 shape = SubResource("BoxShape3D_jdo6i")
 
+[node name="ZoneMapWarp" parent="Map/World" index="2" instance=ExtResource("3_n5ll4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.0176, -0.21037, 0)
+destination_zonemap = &"test_map_01"
+destination_entry_id = &"EntryFromHouse01"
+
+[node name="CollisionShape3D" parent="Map/World/ZoneMapWarp" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_l3ahh")
+
+[node name="foot" parent="Map/World/ZoneMapWarp" index="2" instance=ExtResource("4_42uu3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00903, 0, 0.690469)
+
 [node name="Default" parent="Map/EntryPoints" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.484134, 0)
 
@@ -56,3 +73,5 @@ environment = SubResource("Environment_twlua")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map/WorldEnvironment" index="0"]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
+
+[editable path="Map/World/ZoneMapWarp"]

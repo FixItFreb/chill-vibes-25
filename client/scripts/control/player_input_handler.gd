@@ -6,6 +6,7 @@ extends Node
 
 @export var face_move_direction: bool = true
 
+# The mobile that currently receives player input
 var controlled: MobileLocomotion
 
 func _process(_delta: float) -> void:
@@ -22,4 +23,5 @@ func set_controlled(new_controlled: CharacterBody3D) -> void:
 		player_cam_mount.set_tracked_node(new_controlled)
 
 func recover_cam() -> void:
-	player_cam_mount.reparent(self)
+	Debugger.log("Recovering camera", self)
+	#player_cam_mount.reparent(self)

@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 			# If we had a new position and/or rotation sync_counter will be > 0
 			if sync_counter > 0:
 				# Send local position to server
-				Client.net_bridge.send_client_to_server_unreliable.rpc(NetBridge.DataType.PLAYER_SYNC_POS, var_to_bytes(sync_data))
+				Client.net_bridge.send_client_to_server_unreliable.rpc(NetBridge.PacketType.PLAYER_SYNC_POS, var_to_bytes(sync_data))
 				sync_counter = 0
 			
 			if current_anim_id != anim_player.current_animation:
@@ -60,7 +60,7 @@ func _process(delta: float) -> void:
 					&"node_path": Client.instance.get_path_to(self),
 					&"current_anim": current_anim_id
 				}
-				Client.net_bridge.send_client_to_server_unreliable.rpc(NetBridge.DataType.PLAYER_ANIM_SYNC, var_to_bytes(anim_sync_data))
+				Client.net_bridge.send_client_to_server_unreliable.rpc(NetBridge.PacketType.PLAYER_ANIM_SYNC, var_to_bytes(anim_sync_data))
 	
 	# Are we a remote client ready to sync?
 	elif not multiplayer.is_server() && sync_counter < sync_rate:
@@ -97,6 +97,10 @@ func update_anim(data: Dictionary[StringName,Variant]) -> void:
 		# Process anims
 		current_anim_id = data.get(&"current_anim")
 		#anim_player.play(data.get(&"current_anim"))
+
+func refresh_zonemap() -> void:
+	if is_owner():
+		sync_data.set(&"node_path", Client.instance.get_path_to(self))
 
 func get_current_data() -> Dictionary[StringName,Variant]:
 	var data: Dictionary[StringName,Variant] = {

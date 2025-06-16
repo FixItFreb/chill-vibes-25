@@ -8,3 +8,4 @@ enum EntityType {
 }
 
 var current_zonemap: ZoneMap
+var sync_enabled: bool = false

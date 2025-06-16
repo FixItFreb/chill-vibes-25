@@ -30,3 +30,6 @@ zonemapworld_scene = ExtResource("6_w0hxe")
 spawn_path = NodePath("..")
 script = ExtResource("4_3nqw4")
 metadata/_custom_type_script = "uid://cf8clwi6ap1n8"
+
+[node name="Limbo" type="SubViewport" parent="World"]
+process_mode = 4
