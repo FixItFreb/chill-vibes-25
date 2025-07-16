@@ -47,7 +47,7 @@ func move_player_to_zonemap(player_data: PlayerData, zonemap_id: StringName, zon
 			# Get new zonemap
 			# TODO: Technically this can fail if the world returns null
 			var zonemap: ZoneMap = Server.instance.world_manager.load_zonemap_world(zonemap_id).zonemap_node
-	
+
 			# # Remove player from existing zone if we have one
 			# if player_data.current_zonemap != null:
 			# 	player_data.current_zonemap.world.remove_player_from_world(player_data.player_id)

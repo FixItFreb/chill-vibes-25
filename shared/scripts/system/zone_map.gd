@@ -59,7 +59,14 @@ func add_player_to_zone(to_add: PlayerMobile) -> bool:
 			for player: PlayerMobile in players_in_zone.values():
 				#Debugger.log("Syncing for: %s" % player.mobile_name, self)
 				if player.owner_id != to_add.owner_id:
+					Debugger.log("Sending spawn for %s to %s" % [player.mobile_name, to_add.owner_id], self)
 					zonemap_spawner.spawn_entity_on_client.rpc_id(to_add.owner_id, var_to_bytes(player.get_current_data()))
+			#for index: int in range(-1, players_in_zone.values().size()):
+			#	var player: PlayerMobile = players_in_zone.values()[index]
+			#	Debugger.log("Syncing for: %s" % player.mobile_name, self)
+			#	if player.owner_id != to_add.owner_id:
+			#		zonemap_spawner.spawn_entity_on_client.rpc_id(to_add.owner_id, var_to_bytes(player.get_current_data()))
+
 		return true
 	return false
 

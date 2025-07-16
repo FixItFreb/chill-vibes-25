@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxm3sd4p33t0l"]
+
+[ext_resource type="Script" uid="uid://dwopc5rof6og8" path="res://client/scripts/ui/client_ui.gd" id="1_6a4gy"]
+[ext_resource type="PackedScene" uid="uid://bplsei1gx3hcq" path="res://test/debug_ui.tscn" id="2_maaep"]
+
+[node name="ClientUI" type="CanvasLayer"]
+script = ExtResource("1_6a4gy")
+
+[node name="DebugUI" parent="." instance=ExtResource("2_maaep")]
+visible = false

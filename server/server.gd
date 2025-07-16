@@ -59,12 +59,12 @@ func host(port: int) -> void:
 			return
 
 	multiplayer.peer_connected.connect(
-		func(peer_id: int):
+		func(peer_id: int) -> void:
 			Debugger.log("Client connected: %s" % [str(peer_id)], self)
 	)
 
 	multiplayer.peer_disconnected.connect(
-		func(peer_id: int):
+		func(peer_id: int) -> void:
 			Debugger.log("Client disconnected: %s" % [str(peer_id)], self)
 			remove_player(peer_id)
 	)

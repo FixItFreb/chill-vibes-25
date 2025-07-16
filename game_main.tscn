@@ -20,7 +20,7 @@ world_3d = SubResource("World3D_yn5om")
 collision_mask = 0
 spring_length = 10.0
 
-[node name="World" parent="ClientMain" index="3"]
+[node name="World" parent="ClientMain" index="4"]
 stretch = true
 
 [node name="FrontEnd" parent="." instance=ExtResource("3_3ticj")]

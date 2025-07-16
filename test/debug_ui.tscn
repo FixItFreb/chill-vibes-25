@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://bplsei1gx3hcq"]
+
+[ext_resource type="Script" uid="uid://d0ofi1d0pbk7o" path="res://test/debug_ui.gd" id="1_c7aok"]
+
+[node name="DebugUI" type="Window"]
+title = "Debugma"
+position = Vector2i(20, 50)
+size = Vector2i(500, 250)
+script = ExtResource("1_c7aok")
+
+[node name="Container" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Console" type="Control" parent="Container"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="DebugTextOutput" type="TextEdit" parent="Container/Console"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+editable = false
+middle_mouse_paste_enabled = false
+
+[node name="ClearDebugLogButton" type="Button" parent="Container/Console"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -39.0
+offset_bottom = 25.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 12
+text = "Clear"
